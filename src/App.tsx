@@ -38,14 +38,12 @@ export default function App() {
   const handleChoice = (move: string) => {
     if (betAmount > 0 && betAmount <= wallet) {
       dispatch(setChoice(move));
-      dispatch(setLastRound(null));
     }
   };
 
   const handlePlay = () => {
     if (!choice || betAmount < 1 || betAmount > wallet) return;
     dispatch(setLoading(true));
-    dispatch(setLastRound(null));
     sendBet(choice, betAmount);
   };
 

@@ -3,12 +3,13 @@ import {
     Group,
     Title,
     Text,
-    Avatar,
     Center,
-    Image
+    Card,
+    Image,
+    Avatar
   } from "@mantine/core";
   import { LastRound } from "./betSlice";
-import { moveIconMap } from "./const";
+  import { moveIconMap } from "./const";
   
   interface IBetsProps {
     lastRound: LastRound | null;
@@ -34,25 +35,35 @@ import { moveIconMap } from "./const";
       );
     }
   
+    const isDraw = lastRound.result === "draw";
+    const isPlayerWinner = lastRound.result === "win";
+    const isDealerWinner = lastRound.result === "lose";
+  
+    const getCardBg = (isWinner: boolean) => {
+        if (isDraw) return "linear-gradient(135deg, #2e2e2e, #1a1a1a)";
+        if (isWinner) return "linear-gradient(135deg, #38a169, #22543d)";
+        return "linear-gradient(135deg, #c53030, #742a2a)";
+      };
+  
     return (
       <Box
-        className="last-round-container"
         style={{
           minWidth: '100%',
           height: '100%',
-          textAlign: "center",
+          textAlign: 'center',
           justifyContent: 'center',
           alignItems: 'center',
           padding: 24,
           borderRadius: 12,
-          background: "var(--mantine-color-dark-5)",
+          background: "var(--mantine-color-dark-7)",
           animation: "fadeSlideIn 0.4s ease-out",
         }}
       >
         <Title
           fw={900}
-          size={36}
+          size={40}
           style={{
+            marginBottom: 32,
             color:
               lastRound.result === "win"
                 ? "var(--mantine-color-green-5)"
@@ -65,46 +76,61 @@ import { moveIconMap } from "./const";
           {lastRound.result.toUpperCase()}!
         </Title>
   
-        <Group justify="center" mt="xl" align="flex-start" style={{ gap: 64 }}>
-          {/* Player Side */}
-          <Box style={{ flex: 1, textAlign: "center" }}>
+        <Group justify="center" align="flex-start" grow>
+          {/* Player Card */}
+          <Card
+            withBorder
+            radius="md"
+            padding="lg"
+            style={{
+              flex: 1,
+              background: getCardBg(isPlayerWinner),
+              color: 'white',
+              textAlign: 'center',
+            }}
+          >
+            <Avatar size={200} mx="auto" radius="xl">
               <Image
-                src="https://cdn4.iconfinder.com/data/icons/gambling-39/340/gambler_gambling_casino_player_poker_man-512.png"
+                src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png"
                 alt="Player"
-                height={128}
-                width={128}
+                height={200}
+                width={200}
                 fit="contain"
               />
-            <Title fw={600} mt="md">
-              YOU
-            </Title>
+            </Avatar>
+            <Title order={3} mt="md">YOU</Title>
             <Box mt="md">{moveIconMap[lastRound.playerMove].largeIcon}</Box>
-            <Text mt="sm" c="dimmed">
-              {lastRound.playerMove.toUpperCase()}
-            </Text>
-          </Box>
+            <Text mt="sm" c="gray.3">{lastRound.playerMove.toUpperCase()}</Text>
+          </Card>
   
-          {/* Dealer Side */}
-          <Box style={{ flex: 1, textAlign: "center" }}>
+          {/* Dealer Card */}
+          <Card
+            withBorder
+            radius="md"
+            padding="lg"
+            style={{
+              flex: 1,
+              background: getCardBg(isDealerWinner),
+              color: 'white',
+              textAlign: 'center',
+            }}
+          >
+            <Avatar size={200} mx="auto" radius="xl">
               <Image
-                src="https://static.thenounproject.com/png/casino-dealer-icon-1454025-512.png"
+                src="https://cdn0.iconfinder.com/data/icons/casino-poker-and-cash-monney/512/casino-1024.png"
                 alt="Dealer"
-                height={128}
-                width={128}
+                height={200}
+                width={200}
                 fit="contain"
               />
-            <Title fw={600} mt="md">
-              DEALER
-            </Title>
+            </Avatar>
+            <Title order={3} mt="md">DEALER</Title>
             <Box mt="md">{moveIconMap[lastRound.dealerMove].largeIcon}</Box>
-            <Text mt="sm" c="dimmed">
-              {lastRound.dealerMove.toUpperCase()}
-            </Text>
-          </Box>
+            <Text mt="sm" c="gray.3">{lastRound.dealerMove.toUpperCase()}</Text>
+          </Card>
         </Group>
       </Box>
     );
   };
   
   export default Round;
-  
