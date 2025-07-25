@@ -43,6 +43,7 @@ export const connectWebSocket = () => {
             amount: data.amount,
             bet: data.playerMove,
             dealerMove: data.dealerMove,
+            wallet: data.wallet,
             result,
             round: data.round
           }));

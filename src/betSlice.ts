@@ -6,10 +6,11 @@ type Bet = {
   bet: string;
   dealerMove: string;
   result: "win" | "lose" | "draw";
+  wallet: number;
   round: number;
 };
 
-interface LastRound {
+export interface LastRound {
   playerMove: string;
   dealerMove: string;
   result: "win" | "lose" | "draw";
