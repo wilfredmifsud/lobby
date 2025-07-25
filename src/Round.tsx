@@ -61,7 +61,7 @@ import {
       >
         <Title
           fw={900}
-          size={40}
+          size={70}
           style={{
             marginBottom: 32,
             color:

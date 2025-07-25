@@ -7,9 +7,10 @@ import {
   Title,
   Text,
   Button,
-  NumberInput
+  NumberInput,
+  Switch
 } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Bets from "./Bets";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -31,9 +32,22 @@ export default function App() {
     (state: RootState) => state.bets
   );
 
+  const [autoplay, setAutoplay] = useState(false);
+  const [autoplayChecked, setAutoplayChecked] = useState(false); 
+  const [shuffle, setShuffle] = useState(false);
+
   useEffect(() => {
     connectWebSocket();
   }, []);
+
+  useEffect(() => {
+    if (autoplay && !loading && choice && betAmount > 0 && betAmount <= wallet) {
+      const timer = setTimeout(() => {
+        handlePlay();
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [lastRound]);
 
   const handleChoice = (move: string) => {
     if (betAmount > 0 && betAmount <= wallet) {
@@ -41,11 +55,32 @@ export default function App() {
     }
   };
 
-  const handlePlay = () => {
-    if (!choice || betAmount < 1 || betAmount > wallet) return;
+  const handlePlay = (manual = true) => {
+    if (autoplay && manual) {
+      // STOP was clicked
+      setAutoplay(false);
+      return;
+    }
+  
+    let selectedMove = choice;
+    if (shuffle) {
+      const choices = ["rock", "paper", "scissors"];
+      selectedMove = choices[Math.floor(Math.random() * choices.length)];
+      dispatch(setChoice(selectedMove));
+    }
+  
+    if (!selectedMove || betAmount < 1 || betAmount > wallet) return;
+  
     dispatch(setLoading(true));
-    sendBet(choice, betAmount);
+    sendBet(selectedMove, betAmount);
+  
+    // Enable autoplay after first click, if toggle is on
+    if (manual && autoplayChecked) {
+      setAutoplay(true);
+    }
   };
+  
+
 
   return (
     <MantineProvider defaultColorScheme="dark">
@@ -70,76 +105,70 @@ export default function App() {
                 flexDirection: "column",
               }}
             >
-             
-               <Round lastRound={lastRound} />
+              <Round lastRound={lastRound} />
             </Box>
 
-            {/* Fixed Footer */}
             <Box style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: 24, background: "var(--mantine-color-dark-7)", borderBottomLeftRadius: 12, borderBottomRightRadius: 12, zIndex: 2 }}>
-              <Group justify="space-between" align="center">
-                <Text fw={700} size="lg">Wallet: ${wallet}</Text>
-              
-                <Group gap="md">
-  <Button
-    color="teal"
-    size={choice === "rock" ? "xl" : "default"}
-    onClick={() => handleChoice("rock")}
-    disabled={loading || betAmount < 1 || betAmount > wallet}
-    variant={choice === "rock" ? "outline" : "filled"}
-    style={choice === "rock" ? { borderWidth: 3, borderColor: "#00b894" } : {}}
-  >
-    Rock {moveIconMap['rock'].smallIcon}
-  </Button>
-  <Button
-    color="blue"
-    size={choice === "paper" ? "xl" : "default"}
+              <Group justify="space-between" align="center" wrap="nowrap">
+              <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <Text fw={700} size="xl">Your Wallet</Text>
+              <Text
+  key={wallet} 
+  style={{
+    fontSize: 50,
+    color: 'gold',
+    animation: 'walletChange 0.4s ease-in-out'
+  }}
+>
+  {wallet}
+</Text>
 
-    onClick={() => handleChoice("paper")}
-    disabled={loading || betAmount < 1 || betAmount > wallet}
-    variant={choice === "paper" ? "outline" : "filled"}
-    style={choice === "paper" ? { borderWidth: 3, borderColor: "#339af0" } : {}}
-  >
-    Paper {moveIconMap['paper'].smallIcon}
-  </Button>
-  <Button
-    color="red"
-    size={choice === "scissors" ? "xl" : "default"}
-    onClick={() => handleChoice("scissors")}
-    disabled={loading || betAmount < 1 || betAmount > wallet}
-    variant={choice === "scissors" ? "outline" : "filled"}
-    style={choice === "scissors" ? { borderWidth: 3, borderColor: "#fa5252" } : {}}
-  >
-    Scissors {moveIconMap['scissors'].smallIcon}
-  </Button>
-</Group>
-                <Group justify="center" align="center" dir="col">
-                <NumberInput
-                  value={betAmount}
-                  onChange={(val) => dispatch(setBetAmount(Number(val) || 0))}
-                  min={1}
-                  max={wallet}
-                  step={1}
-                  label="Bet Amount"
-                  hideControls
-                  styles={{ input: { width: 100 } }}
-                />
-                <Button
-                  size="xl"
-                  color="yellow"
-                  radius="xl"
-                  style={{ fontWeight: 900, fontSize: 28, minWidth: 160 }}
-                  onClick={handlePlay}
-                  disabled={!choice || betAmount < 1 || betAmount > wallet || loading}
-                  loading={loading}
-                >
-                  PLAY
-                </Button>
+
+</Box>
+
+                <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                  <NumberInput value={betAmount} onChange={(val) => dispatch(setBetAmount(Number(val) || 0))} min={1} max={wallet} step={1} label="Bet Amount" hideControls styles={{ input: { width: 100 } }} />
+
+                <Group gap="md">
+                  <Button size="xl" color="teal" onClick={() => handleChoice("rock")} disabled={loading || betAmount < 1 || betAmount > wallet} variant={choice === "rock" ? "filled" : "outline"} style={choice === "rock" ? { borderWidth: 3, borderColor: "#00b894", } : {}}>
+                    Rock {moveIconMap['rock'].smallIcon}
+                  </Button>
+                  <Button size="xl"  color="blue"  onClick={() => handleChoice("paper")} disabled={loading || betAmount < 1 || betAmount > wallet} variant={choice === "paper" ? "filled" : "outline"} style={choice === "paper" ? { borderWidth: 3, borderColor: "#339af0" } : {}}>
+                    Paper {moveIconMap['paper'].smallIcon}
+                  </Button>
+                  <Button size="xl"  color="red"  onClick={() => handleChoice("scissors")} disabled={loading || betAmount < 1 || betAmount > wallet} variant={choice === "scissors" ? "filled" : "outline"} style={choice === "scissors" ? { borderWidth: 3, borderColor: "#fa5252" } : {}}>
+                    Scissors {moveIconMap['scissors'].smallIcon}
+                  </Button>
                 </Group>
+                </Box>
+                <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                <Button
+  size="xl"
+  color="yellow"
+  radius="xl"
+  style={{ fontWeight: 900, fontSize: 28, minWidth: 160 }}
+  onClick={() => handlePlay(true)}
+  disabled={!choice || betAmount < 1 || betAmount > wallet || loading}
+  loading={loading}
+>
+  {autoplay ? "STOP" : "PLAY"}
+</Button>
+
+
+                  <Box style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 20 }}>
+                  <Switch
+  label="Autoplay"
+  checked={autoplayChecked}
+  onChange={(e) => setAutoplayChecked(e.currentTarget.checked)}
+/>
+                  <Switch label="Shuffle" checked={shuffle} onChange={(event) => setShuffle(event.currentTarget.checked)} />
+                    </Box>
+                </Box>
               </Group>
             </Box>
           </Box>
 
-          <Paper shadow="md" radius="md" p="xl" style={{ flex: 1, minWidth: 280, minHeight: 0, height: "100%" }}>
+          <Paper shadow="md" radius="md" p="xl" style={{ flex: 1, minWidth: 280, minHeight: 0, height: "100%", overflow: "auto" }}>
             <Bets />
           </Paper>
         </Group>
