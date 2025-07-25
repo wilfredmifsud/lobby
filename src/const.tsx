@@ -1,3 +1,4 @@
+import React from 'react';
 import { FaHandRock, FaHandPaper, FaHandScissors } from "react-icons/fa";
 
 export const moveIconMap = {

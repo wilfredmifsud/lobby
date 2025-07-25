@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Box,
     Group,
@@ -8,8 +9,8 @@ import {
     Image,
     Avatar
   } from "@mantine/core";
-  import { LastRound } from "./betSlice";
-  import { moveIconMap } from "./const";
+  import { LastRound } from "../state/features/betSlice";
+  import { moveIconMap } from "../const";
   
   interface IBetsProps {
     lastRound: LastRound | null;

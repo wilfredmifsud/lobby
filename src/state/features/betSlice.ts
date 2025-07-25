@@ -27,7 +27,7 @@ interface BetsState {
 
 const initialState: BetsState = {
   wallet: 0,
-  betAmount: 50,
+  betAmount: 5,
   choice: null,
   loading: false,
   lastRound: null,

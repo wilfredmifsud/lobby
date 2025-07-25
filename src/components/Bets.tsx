@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { RootState } from './store';
-import { Paper, Title, Divider, Table, Text } from '@mantine/core';
+import { RootState } from '../state/store';
+import { Paper, Title, Divider, Table } from '@mantine/core';
 import React from 'react';
 
 const Bets = React.memo(() => {
