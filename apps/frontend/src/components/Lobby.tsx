@@ -34,19 +34,16 @@ import {
 
 export default function Lobby() {
   const dispatch = useDispatch();
-  const { wallet, betAmount, choice, loading, lastRound } = useSelector(
-    (state: RootState) => state.bets,
-  );
-  const { autoplay, autoplayChecked, shuffle } = useSelector(
-    (state: RootState) => state.game,
-  );
-
   const theme = useMantineTheme();
   const [opened, { close, toggle }] = useDisclosure(false);
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
+  const { wallet, betAmount, choice, loading, lastRound } = useSelector((state: RootState) => state.bets);
+  const { autoplay, autoplayChecked, shuffle } = useSelector((state: RootState) => state.game);
+
   const handleChoice = useCallback(
     (move: string) => {
+      // handles the bet amount
       if (betAmount > 0 && betAmount <= wallet) {
         dispatch(setChoice(move));
       }
@@ -54,44 +51,41 @@ export default function Lobby() {
     [betAmount, wallet],
   );
 
-  const handlePlay = useCallback(
-    (manual = true) => {
-      if (manual && autoplay) {
-        dispatch(setAutoplay(false));
-        return;
-      }
+  const handlePlay = (manual = true) => {
+    // executes a round of the game
+    if (manual && autoplay) {
+      dispatch(setAutoplay(false));
+      return;
+    }
 
-      let selectedMove = choice;
-      if (shuffle || !choice) {
-        const choices = ["rock", "paper", "scissors"];
-        selectedMove = choices[Math.floor(Math.random() * choices.length)];
-        dispatch(setChoice(selectedMove));
-      }
+    let selectedMove = choice;
+    if (!selectedMove || betAmount < 1 || betAmount > wallet) return;
 
-      if (!selectedMove || betAmount < 1 || betAmount > wallet) return;
+    if (shuffle || !choice) {
+      const choices = ["rock", "paper", "scissors"];
+      selectedMove = choices[Math.floor(Math.random() * choices.length)];
+      dispatch(setChoice(selectedMove));
+    }
 
-      dispatch(setLoading(true));
-      sendBet(selectedMove, betAmount);
+    dispatch(setLoading(true));
+    sendBet(selectedMove, betAmount);
 
-      if (manual && autoplayChecked) {
-        dispatch(setAutoplay(true));
-      }
-    },
-    [autoplay, autoplayChecked, shuffle, choice, betAmount, wallet, dispatch],
-  );
+    if (manual && autoplayChecked) {
+      dispatch(setAutoplay(true));
+    }
+  };
 
   useEffect(() => {
+    // stop autoplay
     if (autoplay && !loading && betAmount > 0 && betAmount <= wallet) {
-      const timer = setTimeout(() => {
-        handlePlay(false);
-      }, 1200);
+      const timer = setTimeout(() => { handlePlay(false); }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [lastRound, autoplay, loading, betAmount, wallet, handlePlay]);
+  }, [autoplay]);
 
   return (
     <MantineProvider defaultColorScheme="dark">
-      <Box  style={LobbyContainerStyle}>
+      <Box style={LobbyContainerStyle}>
         <Group gap={0} align="stretch" style={LobbyGroupStyle}>
           <Box style={LobbyMainBoxStyle}>
             {isMobile && (
