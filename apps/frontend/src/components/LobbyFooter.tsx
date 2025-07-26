@@ -24,7 +24,7 @@ function LobbyFooter({
   onToggleShuffle,
 }: LobbyFooterProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  console.log(isMobile, wallet);
+
   return (
     <Box style={LobbyFooterBoxStyle(isMobile)}>
       <Group

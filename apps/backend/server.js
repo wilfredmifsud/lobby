@@ -44,6 +44,11 @@ wss.on('connection', (ws) => {
         return;
       }
 
+      if (parsed.type === 'PING') {
+        ws.send(JSON.stringify({ type: 'PONG' }));
+        return;
+      }
+
       if (parsed.type === 'BET') {
         const { move, amount } = parsed;
 

@@ -5,13 +5,15 @@ import {
   handleNoCredits,
 } from "./handlers";
 import { WSMessage } from "./model";
-import { setConnectionError } from "../state/features/gameSlice"; // or wherever your reducer is
+import { setConnectionError } from "../state/features/gameSlice";
 import { store } from "../state/store";
 
 let ws: WebSocket | null = null;
 export let reconnectTimeout: NodeJS.Timeout;
+let keepAliveInterval: NodeJS.Timeout;
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000";
+const KEEP_ALIVE_INTERVAL = 20000; // 20 seconds
 
 export const connectWebSocket = () => {
   if (ws && ws.readyState === WebSocket.OPEN) return;
@@ -21,6 +23,14 @@ export const connectWebSocket = () => {
   ws.onopen = () => {
     console.log("WebSocket connected");
     ws?.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
+
+    // Start keep-alive ping
+    clearInterval(keepAliveInterval);
+    keepAliveInterval = setInterval(() => {
+      if (ws?.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: "PING" }));
+      }
+    }, KEEP_ALIVE_INTERVAL);
   };
 
   ws.onmessage = (event) => {
@@ -52,6 +62,7 @@ export const connectWebSocket = () => {
     const msg = "Server disconnected, attempting to reconnect...";
     console.warn(msg);
     store.dispatch(setConnectionError(msg));
+    clearInterval(keepAliveInterval);
     reconnectTimeout = setTimeout(connectWebSocket, 3000);
   };
 
