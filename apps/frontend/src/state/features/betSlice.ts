@@ -1,31 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type GameResult = "win" | "lose" | "draw";
-
-interface Bet {
-  user: string;
-  amount: number;
-  bet: string;
-  dealerMove: string;
-  result: GameResult;
-  wallet: number;
-  round: number;
-};
-
-interface LastRound {
-  playerMove: string;
-  dealerMove: string;
-  result: GameResult
-}
-
-interface BetsState {
-  wallet: number;
-  betAmount: number;
-  choice: string | null;
-  loading: boolean;
-  lastRound: LastRound | null;
-  history: Bet[];
-}
+import { Bet, BetsState, LastRound } from "../../components/model";
 
 const initialState: BetsState = {
   wallet: 0,

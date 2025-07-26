@@ -9,7 +9,9 @@ import { setConnectionError } from "../state/features/gameSlice";
 import { store } from "../state/store";
 
 let ws: WebSocket | null = null;
+// @ts-ignore
 export let reconnectTimeout: NodeJS.Timeout;
+// @ts-ignore
 let keepAliveInterval: NodeJS.Timeout;
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000";

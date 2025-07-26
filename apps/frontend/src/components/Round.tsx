@@ -10,7 +10,7 @@ import {
   Avatar,
 } from "@mantine/core";
 import { gsap } from "gsap";
-import { moveIconMap } from "../const";
+import { getMoveIcon } from "../const";
 import { IBetsProps } from "./model";
 
 const Round = ({ lastRound }: IBetsProps) => {
@@ -148,7 +148,7 @@ const Round = ({ lastRound }: IBetsProps) => {
           <Title order={3} mt="md">
             YOU
           </Title>
-          <Box mt="md">{moveIconMap[lastRound.playerMove].largeIcon}</Box>
+          <Box mt="md">{getMoveIcon(lastRound.playerMove, "large")}</Box>
           <Text mt="sm" c="gray.3">
             {lastRound.playerMove.toUpperCase()}
           </Text>
@@ -178,7 +178,7 @@ const Round = ({ lastRound }: IBetsProps) => {
           <Title order={3} mt="md">
             DEALER
           </Title>
-          <Box mt="md">{moveIconMap[lastRound.dealerMove].largeIcon}</Box>
+          <Box mt="md">{getMoveIcon(lastRound.dealerMove, "large")}</Box>
           <Text mt="sm" c="gray.3">
             {lastRound.dealerMove.toUpperCase()}
           </Text>

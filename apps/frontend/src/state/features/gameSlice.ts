@@ -1,11 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GameState } from "../../components/model";
 
-interface GameState {
-  autoplay: boolean;
-  autoplayChecked: boolean;
-  shuffle: boolean;
-  connectionError: string | null;
-}
 
 const initialState: GameState = {
   autoplay: false,

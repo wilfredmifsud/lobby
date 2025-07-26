@@ -55,7 +55,7 @@ export default function BetsPanel() {
                 </Card>
               ))
             ) : (
-              <Text align="center">No Rounds Played</Text>
+              <Text>No Rounds Played</Text>
             )}
           </Stack>
         ) : (

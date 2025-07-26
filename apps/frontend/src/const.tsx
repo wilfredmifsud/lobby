@@ -22,3 +22,9 @@ export const moveIconMap = {
     largeIcon: <FaHandScissors size={100} />,
   },
 };
+
+
+export const getMoveIcon = (move: string, size: "small" | "large") => {
+  const icon = moveIconMap[move as keyof typeof moveIconMap];
+  return size === "small" ? icon.smallIcon : icon.largeIcon;
+} 
