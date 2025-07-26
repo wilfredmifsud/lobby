@@ -1,19 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Bet = {
+type GameResult = "win" | "lose" | "draw";
+
+interface Bet {
   user: string;
   amount: number;
   bet: string;
   dealerMove: string;
-  result: "win" | "lose" | "draw";
+  result: GameResult;
   wallet: number;
   round: number;
 };
 
-export interface LastRound {
+interface LastRound {
   playerMove: string;
   dealerMove: string;
-  result: "win" | "lose" | "draw";
+  result: GameResult
 }
 
 interface BetsState {

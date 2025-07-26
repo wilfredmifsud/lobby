@@ -24,7 +24,6 @@ export const connectWebSocket = () => {
     console.log("WebSocket connected");
     ws?.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
 
-    // Start keep-alive ping
     clearInterval(keepAliveInterval);
     keepAliveInterval = setInterval(() => {
       if (ws?.readyState === WebSocket.OPEN) {

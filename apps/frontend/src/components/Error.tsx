@@ -1,4 +1,4 @@
-import { Overlay, Center, Text, Box } from "@mantine/core";
+import { Overlay, Center, Text } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 

@@ -1,5 +1,3 @@
-// components/BetsPanel.tsx
-
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import {

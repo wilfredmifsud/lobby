@@ -11,7 +11,7 @@ function getRandomRPS() {
 }
 
 function determineWin(player, dealer) {
-  if (player === dealer) return null; // tie
+  if (player === dealer) return null; 
   if (
     (player === 'rock' && dealer === 'scissors') ||
     (player === 'paper' && dealer === 'rock') ||
@@ -25,13 +25,9 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('⚡ Client connected');
-
-  // Mock Wallet. Initialize wallet per connection
   ws.wallet = 56;
 
-  // Optional welcome message
   ws.send(JSON.stringify({ type: 'SYSTEM', message: 'Connected to RPS WebSocket server' }));
-
   ws.on('message', (message) => {
     try {
       const parsed = JSON.parse(message);
@@ -68,13 +64,12 @@ wss.on('connection', (ws) => {
         const dealerMove = getRandomRPS();
         const win = determineWin(move, dealerMove);
 
-        // Adjust wallet
+     
         if (win === true) {
           ws.wallet += amount;
         } else if (win === false) {
           ws.wallet -= amount;
         }
-        // no change for draw
 
         const response = {
           type: 'BET_RESULT',
@@ -90,7 +85,6 @@ wss.on('connection', (ws) => {
         return;
       }
 
-      // Unknown type
       ws.send(JSON.stringify({ type: 'ERROR', message: 'Unknown message type' }));
     } catch (err) {
       console.error('❌ Invalid message format:', message);

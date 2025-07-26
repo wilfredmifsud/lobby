@@ -1,4 +1,3 @@
-import React from "react";
 import { FaHandRock, FaHandPaper, FaHandScissors } from "react-icons/fa";
 
 export const MOVE_OPTIONS = ["rock", "paper", "scissors"] as const;

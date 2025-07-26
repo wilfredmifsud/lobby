@@ -4,8 +4,6 @@ import {
   Paper,
   Group,
   Box,
-  Button,
-  Switch,
   Drawer,
   Burger,
   useMantineTheme,
@@ -44,7 +42,7 @@ export default function Lobby() {
   );
 
   const theme = useMantineTheme();
-  const [opened, { open, close, toggle }] = useDisclosure(false);
+  const [opened, { close, toggle }] = useDisclosure(false);
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   const handleChoice = useCallback(

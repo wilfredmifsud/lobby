@@ -19,3 +19,7 @@ export interface LobbyFooterControlsProps {
   wallet: number;
   handleChoice: (move: string) => void;
 }
+
+export interface IBetsProps {
+  lastRound: LastRound | null;
+}

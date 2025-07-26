@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   Box,
   Group,
@@ -10,12 +10,8 @@ import {
   Avatar,
 } from "@mantine/core";
 import { gsap } from "gsap";
-import { LastRound } from "../state/features/betSlice";
 import { moveIconMap } from "../const";
-
-interface IBetsProps {
-  lastRound: LastRound | null;
-}
+import { IBetsProps } from "./model";
 
 const Round = ({ lastRound }: IBetsProps) => {
   const playerRef = useRef<HTMLDivElement>(null);
@@ -27,8 +23,6 @@ const Round = ({ lastRound }: IBetsProps) => {
     if (!playerRef.current || !dealerRef.current || !titleRef.current) return;
 
     const tl = gsap.timeline();
-
-    // Start: slide in fast from sides
     tl.set([playerRef.current, dealerRef.current], {
       x: (i: number) => (i === 0 ? -500 : 500),
       opacity: 0,
@@ -42,7 +36,6 @@ const Round = ({ lastRound }: IBetsProps) => {
       ease: "power2.out",
     });
 
-    // Clash impact!
     tl.to([playerRef.current, dealerRef.current], {
       scale: 1.1,
       duration: 0.1,
@@ -51,7 +44,6 @@ const Round = ({ lastRound }: IBetsProps) => {
       ease: "power1.inOut",
     });
 
-    // BAMMM effect on title
     tl.fromTo(
       titleRef.current,
       {
@@ -81,7 +73,7 @@ const Round = ({ lastRound }: IBetsProps) => {
         }}
       >
         <Title order={2} c="gray">
-          SELECT ONE AND START YOUR FIRST BET!!
+          SELECT ONE AND START YOUR FIRST BET!
         </Title>
       </Center>
     );
@@ -132,7 +124,6 @@ const Round = ({ lastRound }: IBetsProps) => {
       </Title>
 
       <Group justify="center" align="flex-start" grow>
-        {/* Player Card */}
         <Card
           ref={playerRef}
           withBorder
@@ -163,7 +154,6 @@ const Round = ({ lastRound }: IBetsProps) => {
           </Text>
         </Card>
 
-        {/* Dealer Card */}
         <Card
           ref={dealerRef}
           withBorder

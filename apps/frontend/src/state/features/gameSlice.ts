@@ -1,4 +1,3 @@
-// state/gameSlice.ts (or your current slice)
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface GameState {
