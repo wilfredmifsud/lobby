@@ -14,7 +14,7 @@ export let reconnectTimeout: NodeJS.Timeout;
 // @ts-ignore
 let keepAliveInterval: NodeJS.Timeout;
 
-const WS_URL = import.meta.env.VITE_WS_URL || "wss://lobby-production-2e79.up.railway.app";
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000";
 const KEEP_ALIVE_INTERVAL = 20000; // 20 seconds
 
 export const connectWebSocket = () => {
