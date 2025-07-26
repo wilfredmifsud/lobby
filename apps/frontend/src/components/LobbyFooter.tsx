@@ -1,11 +1,14 @@
 import { Box, Button, Group, Switch } from "@mantine/core";
-import { memo } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 import {
   LobbyFooterBoxStyle,
   LobbyFooterControlsWrapperStyle,
   LobbyFooterSwitchesStyle,
 } from "./styles";
 import { LobbyFooterProps } from "./model";
+import BetControls from "./BetControl";
+import { memo } from "react";
+import WalletDisplay from "./Wallet";
 
 function LobbyFooter({
   choice,
@@ -14,15 +17,32 @@ function LobbyFooter({
   autoplay,
   autoplayChecked,
   shuffle,
+  wallet,
+  handleChoice,
   handlePlay,
   onToggleAutoplay,
   onToggleShuffle,
 }: LobbyFooterProps) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  console.log(isMobile, wallet);
   return (
-    <Box style={LobbyFooterBoxStyle}>
-      <Group justify="space-between" align="center" wrap="nowrap">
-        <Box style={LobbyFooterControlsWrapperStyle}>
-          <Box style={LobbyFooterSwitchesStyle}>
+    <Box style={LobbyFooterBoxStyle(isMobile)}>
+      <Group
+        justify="space-between"
+        align={isMobile ? "stretch" : "center"}
+        wrap="wrap"
+        gap={isMobile ? "md" : "lg"}
+      >
+        <BetControls
+          betAmount={betAmount}
+          choice={choice}
+          loading={loading}
+          handleChoice={handleChoice}
+          wallet={wallet}
+        />
+
+        <Box style={LobbyFooterControlsWrapperStyle(isMobile)}>
+          <Box style={LobbyFooterSwitchesStyle(isMobile)}>
             <Switch
               label="Autoplay"
               checked={autoplayChecked}
@@ -36,17 +56,24 @@ function LobbyFooter({
           </Box>
 
           <Button
-            size="xl"
+            size={isMobile ? "lg" : "xl"}
             color="yellow"
             radius="xl"
-            mt="50"
-            style={{ fontWeight: 900, fontSize: 28, minWidth: 240 }}
+            mt={isMobile ? "sm" : 50}
+            style={{
+              fontWeight: 900,
+              fontSize: isMobile ? 22 : 28,
+              minWidth: isMobile ? "100%" : 240,
+            }}
             onClick={() => handlePlay(true)}
             disabled={(!choice && !shuffle) || betAmount < 1 || loading}
             loading={loading}
           >
             {autoplay ? "STOP" : "PLAY"}
           </Button>
+          {isMobile ? (
+            <WalletDisplay isMobile={isMobile} wallet={wallet} />
+          ) : null}
         </Box>
       </Group>
     </Box>

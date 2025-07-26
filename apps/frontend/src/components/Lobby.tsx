@@ -10,22 +10,29 @@ import {
   Burger,
   useMantineTheme,
 } from "@mantine/core";
-import { useEffect, useState, useCallback, memo } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setChoice, setLoading } from "./../state/features/betSlice";
 import type { RootState } from "./../state/store";
-import { connectWebSocket, sendBet } from "./../actions/ws";
+import { sendBet } from "./../actions/ws";
 import Round from "./../components/Round";
 import Bets from "./../components/Bets";
-import WalletDisplay from "./../components/Wallet";
-import BetControls from "./LobbyFooter/BetControl";
 import {
   setAutoplay,
   setAutoplayChecked,
   setShuffle,
 } from "../state/features/gameSlice";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import LobbyFooter from "./LobbyFooter/LobbyFooter";
+import LobbyFooter from "./LobbyFooter";
+
+import {
+  LobbyContainerStyle,
+  LobbyGroupStyle,
+  LobbyMainBoxStyle,
+  LobbyBurgerBoxStyle,
+  LobbyRoundBoxStyle,
+  LobbyDrawerPaperStyle,
+} from "./styles";
 
 export default function Lobby() {
   const dispatch = useDispatch();
@@ -52,7 +59,7 @@ export default function Lobby() {
   const handlePlay = useCallback(
     (manual = true) => {
       if (manual && autoplay) {
-        dispatch(setAutoplay(false)); // STOP clicked
+        dispatch(setAutoplay(false));
         return;
       }
 
@@ -75,7 +82,6 @@ export default function Lobby() {
     [autoplay, autoplayChecked, shuffle, choice, betAmount, wallet, dispatch],
   );
 
-  // Autoplay runner
   useEffect(() => {
     if (autoplay && !loading && betAmount > 0 && betAmount <= wallet) {
       const timer = setTimeout(() => {
@@ -85,38 +91,13 @@ export default function Lobby() {
     }
   }, [lastRound, autoplay, loading, betAmount, wallet, handlePlay]);
 
-  useEffect(() => {
-    if (lastRound && isMobile) {
-      open();
-    }
-  }, [lastRound, isMobile, open]);
-
   return (
     <MantineProvider defaultColorScheme="dark">
-      <Box
-        style={{
-          minHeight: "100vh",
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Group align="stretch" style={{ height: "100vh" }}>
-          <Box
-            style={{
-              flex: 2,
-              minHeight: 0,
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-            }}
-          >
+      <Box style={LobbyContainerStyle}>
+        <Group align="stretch" style={LobbyGroupStyle}>
+          <Box style={LobbyMainBoxStyle}>
             {isMobile && (
-              <Box
-                p="md"
-                style={{ position: "absolute", top: 0, left: 0, zIndex: 10 }}
-              >
+              <Box p="md" style={LobbyBurgerBoxStyle}>
                 <Burger
                   opened={opened}
                   onClick={toggle}
@@ -125,19 +106,12 @@ export default function Lobby() {
               </Box>
             )}
 
-            <Box
-              style={{
-                flex: 1,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
+            <Box style={LobbyRoundBoxStyle}>
               <Round lastRound={lastRound} />
             </Box>
 
             <LobbyFooter
+              wallet={wallet}
               choice={choice}
               loading={loading}
               betAmount={betAmount}
@@ -153,34 +127,21 @@ export default function Lobby() {
             />
           </Box>
 
-          {/* Right side: Sidebar */}
           {isMobile ? (
             <Drawer
               opened={opened}
               onClose={close}
-              title="Recent Bets"
-              padding="xl"
+              padding="m"
               size="80%"
               position="right"
               overlayProps={{ opacity: 0.55, blur: 3 }}
+              zIndex={99999}
               transitionProps={{ transition: "slide-left", duration: 300 }}
             >
               <Bets />
             </Drawer>
           ) : (
-            <Paper
-              shadow="md"
-              radius="md"
-              p="xl"
-              style={{
-                flex: 1,
-                minWidth: 280,
-                minHeight: 0,
-                height: "100%",
-                overflow: "auto",
-                backgroundColor: "var(--mantine-color-dark-6)",
-              }}
-            >
+            <Paper shadow="md" radius="md" p="xl" style={LobbyDrawerPaperStyle}>
               <Bets />
             </Paper>
           )}

@@ -5,6 +5,7 @@ export interface LobbyFooterProps {
   autoplay: boolean;
   autoplayChecked: boolean;
   shuffle: boolean;
+  wallet: number;
   handleChoice: (move: string) => void;
   handlePlay: (manual: boolean) => void;
   onToggleAutoplay: (checked: boolean) => void;

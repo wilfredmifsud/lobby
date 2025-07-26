@@ -74,8 +74,6 @@ const Round = ({ lastRound }: IBetsProps) => {
     return (
       <Center
         style={{
-          minHeight: 300,
-          minWidth: 600,
           background: "var(--mantine-color-dark-5)",
           borderRadius: 12,
           padding: 24,
@@ -116,7 +114,7 @@ const Round = ({ lastRound }: IBetsProps) => {
       <Title
         ref={titleRef}
         fw={900}
-        size={70}
+        size={40}
         style={{
           marginBottom: 32,
           color:
@@ -147,12 +145,12 @@ const Round = ({ lastRound }: IBetsProps) => {
             textAlign: "center",
           }}
         >
-          <Avatar size={200} mx="auto" radius="xl">
+          <Avatar size={120} mx="auto" radius="xl">
             <Image
               src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png"
               alt="Player"
-              height={200}
-              width={200}
+              height={120}
+              width={120}
               fit="contain"
             />
           </Avatar>
@@ -178,12 +176,12 @@ const Round = ({ lastRound }: IBetsProps) => {
             textAlign: "center",
           }}
         >
-          <Avatar size={200} mx="auto" radius="xl">
+          <Avatar size={120} mx="auto" radius="xl">
             <Image
               src="https://cdn0.iconfinder.com/data/icons/casino-poker-and-cash-monney/512/casino-1024.png"
               alt="Dealer"
-              height={200}
-              width={200}
+              height={120}
+              width={120}
               fit="contain"
             />
           </Avatar>

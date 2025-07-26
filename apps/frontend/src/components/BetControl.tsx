@@ -1,5 +1,10 @@
 import { Group, Box, Button, NumberInput } from "@mantine/core";
-import { MOVE_COLORS, MOVE_OPTIONS, moveIconMap } from "../../const";
+import { MOVE_COLORS, MOVE_OPTIONS, moveIconMap } from "../const";
+import {
+  BetControlNumberInputStyles,
+  BetControlSelectedButtonStyle,
+  BetControlWrapperStyle,
+} from "./styles";
 import { LobbyFooterControlsProps } from "./model";
 
 export default function BetControls({
@@ -10,14 +15,7 @@ export default function BetControls({
   handleChoice,
 }: LobbyFooterControlsProps) {
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 8,
-      }}
-    >
+    <Box style={BetControlWrapperStyle}>
       <NumberInput
         value={betAmount}
         onChange={() => handleChoice("")}
@@ -26,20 +24,7 @@ export default function BetControls({
         step={1}
         label="Bet Amount"
         hideControls
-        styles={{
-          input: {
-            width: 140,
-            height: 50,
-            fontSize: 20,
-            fontWeight: 700,
-            textAlign: "center",
-          },
-          label: {
-            fontSize: 16,
-            fontWeight: 600,
-            marginBottom: 8,
-          },
-        }}
+        styles={BetControlNumberInputStyles}
       />
       <Group gap="md">
         {MOVE_OPTIONS.map((move) => (
@@ -50,11 +35,8 @@ export default function BetControls({
             onClick={() => handleChoice(move)}
             disabled={loading || betAmount < 1 || betAmount > wallet}
             variant={choice === move ? "filled" : "outline"}
-            style={
-              choice === move ? { borderWidth: 3, borderColor: "#ccc" } : {}
-            }
+            style={choice === move ? BetControlSelectedButtonStyle : {}}
           >
-            {move.charAt(0).toUpperCase() + move.slice(1)}{" "}
             {moveIconMap[move].smallIcon}
           </Button>
         ))}

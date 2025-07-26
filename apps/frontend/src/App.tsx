@@ -15,7 +15,7 @@ import { connectWebSocket, sendBet } from "./actions/ws";
 import Round from "./components/Round";
 import Bets from "./components/Bets";
 import WalletDisplay from "./components/Wallet";
-import BetControls from "./components/LobbyFooter/BetControl";
+import BetControls from "./components/BetControl";
 import Lobby from "./components/Lobby";
 import ConnectionErrorOverlay from "./components/Error";
 
