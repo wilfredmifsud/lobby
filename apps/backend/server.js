@@ -27,7 +27,7 @@ wss.on('connection', (ws) => {
   console.log('⚡ Client connected');
 
   // fake wallet balance for the client
-  ws.wallet = +(Math.random() * (1000 - 10) + 10).toFixed(2);
+  ws.wallet = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
 
   ws.send(JSON.stringify({ type: 'SYSTEM', message: 'Connected to WebSocket server' }));
   ws.on('message', (message) => {
