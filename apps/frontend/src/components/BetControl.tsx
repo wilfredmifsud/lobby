@@ -7,7 +7,6 @@ import {
 import { LobbyFooterControlsProps } from "./model";
 import { useDispatch } from "react-redux";
 import { setBetAmount } from "../state/features/betSlice";
-import { Notification } from "@mantine/core";
 
 
 export default function BetControls({
@@ -18,15 +17,9 @@ export default function BetControls({
   handleChoice,
 }: LobbyFooterControlsProps) {
   const dispatch = useDispatch();
+
   return (
     <Box style={BetControlWrapperStyle}>
-      {wallet <= 1 ? <Notification w={'100%'}
-      color="red"
-      title="Insufficient Funds"
-      withCloseButton={false}
-    >
-      No credit left in your wallet.
-    </Notification> : 
       <Group mb="sm" gap={'6px'} align="center" justify="center">
         {PRESET_BET_AMOUNTS.map((amount) => (
           <Button
@@ -36,12 +29,11 @@ export default function BetControls({
             onClick={() => {
               dispatch(setBetAmount(amount));
             }}
-            disabled={amount > wallet}
           >
             ${amount}
           </Button>
         ))}
-      </Group>}
+      </Group>
 
       <Group gap="md">
         {MOVE_OPTIONS.map((move) => (
