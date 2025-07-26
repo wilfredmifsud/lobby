@@ -24,7 +24,7 @@ const WalletDisplay = memo(
     return (
       <Box style={BetControlWrapperStyle}>
         <Text>Your Wallet:</Text>
-        <Text style={WalletTextStyle(isMobile)}>{displayedWallet}</Text>
+        <Text style={WalletTextStyle(isMobile)}>${displayedWallet}</Text>
       </Box>
     );
   },
