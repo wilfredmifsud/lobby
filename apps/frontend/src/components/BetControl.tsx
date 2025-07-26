@@ -26,6 +26,7 @@ export default function BetControls({
             key={amount}
             size="sm"
             variant={betAmount === amount ? "filled" : "outline"}
+            disabled={amount > wallet}
             onClick={() => {
               dispatch(setBetAmount(amount));
             }}

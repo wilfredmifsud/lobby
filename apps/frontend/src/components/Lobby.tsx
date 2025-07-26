@@ -91,8 +91,8 @@ export default function Lobby() {
 
   return (
     <MantineProvider defaultColorScheme="dark">
-      <Box style={LobbyContainerStyle}>
-        <Group align="stretch" style={LobbyGroupStyle}>
+      <Box  style={LobbyContainerStyle}>
+        <Group gap={0} align="stretch" style={LobbyGroupStyle}>
           <Box style={LobbyMainBoxStyle}>
             {isMobile && (
               <Box p="md" style={LobbyBurgerBoxStyle}>

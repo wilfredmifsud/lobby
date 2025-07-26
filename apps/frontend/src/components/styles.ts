@@ -56,12 +56,10 @@ export const LobbyFooterBoxStyle = (isMobile: boolean): CSSProperties => ({
   right: 0,
   bottom: 0,
   padding: isMobile ? 16 : 24,
-  background: "var(--mantine-color-dark-7)",
-  borderTopLeftRadius: isMobile ? 12 : 0,
-  borderTopRightRadius: isMobile ? 12 : 0,
-  borderBottomLeftRadius: isMobile ? 0 : 12,
-  borderBottomRightRadius: isMobile ? 0 : 12,
+  background: "var(--mantine-color-dark-8)",
+  borderTop: "1px solid var(--mantine-color-dark-4)",
   zIndex: 999,
+  width: "100%",
 });
 
 export const LobbyFooterControlsWrapperStyle = (isMobile: boolean): CSSProperties => ({

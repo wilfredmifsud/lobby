@@ -61,7 +61,7 @@ function LobbyFooter({
             size={isMobile ? "lg" : "xl"}
             color="yellow"
             radius="xl"
-            mt={isMobile ? "sm" : 50}
+            mt={isMobile ? "sm" : "md"}
             style={LobbyFooterPlayStyle}
             onClick={() => handlePlay(true)}
             disabled={(!choice && !shuffle) || betAmount < 1 || loading}
