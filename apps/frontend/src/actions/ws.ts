@@ -23,15 +23,18 @@ export const connectWebSocket = () => {
   ws = new WebSocket(WS_URL);
 
   ws.onopen = () => {
-    console.log("WebSocket connected");
-    ws?.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
 
-    clearInterval(keepAliveInterval);
-    keepAliveInterval = setInterval(() => {
-      if (ws?.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: "PING" }));
-      }
-    }, KEEP_ALIVE_INTERVAL);
+      clearInterval(keepAliveInterval);
+      keepAliveInterval = setInterval(() => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ type: "PING" }));
+        }
+      }, KEEP_ALIVE_INTERVAL);
+    } else {
+      console.warn('WebSocket onopen fired but readyState is not OPEN:');
+    }
   };
 
   ws.onmessage = (event) => {

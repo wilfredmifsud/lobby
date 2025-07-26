@@ -107,6 +107,18 @@ export const BetControlSelectedButtonStyle: CSSProperties = {
   borderColor: "#ccc",
 };
 
+export const LobbyFooterPlayStyle: CSSProperties = {
+  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFB84D 100%)',
+  color: '#3a2e0f',
+  borderRadius: '12px',
+  border: '2px solid #b8860b',
+  fontWeight: '700',
+  textShadow: '0 1px 0 #8b6508',
+  transition: 'background 0.3s ease',
+  padding: '12px 24px',
+  width:'100%',
+}
+
 export const WalletTextStyle = (isMobile: boolean): CSSProperties => ({
   fontSize: isMobile ? 16 : 50,
   color: "gold",

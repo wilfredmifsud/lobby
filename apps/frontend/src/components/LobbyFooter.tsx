@@ -3,6 +3,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import {
   LobbyFooterBoxStyle,
   LobbyFooterControlsWrapperStyle,
+  LobbyFooterPlayStyle,
   LobbyFooterSwitchesStyle,
 } from "./styles";
 import { LobbyFooterProps } from "./model";
@@ -61,11 +62,7 @@ function LobbyFooter({
             color="yellow"
             radius="xl"
             mt={isMobile ? "sm" : 50}
-            style={{
-              fontWeight: 900,
-              fontSize: isMobile ? 22 : 28,
-              minWidth: isMobile ? "100%" : 240,
-            }}
+            style={LobbyFooterPlayStyle}
             onClick={() => handlePlay(true)}
             disabled={(!choice && !shuffle) || betAmount < 1 || loading}
             loading={loading}
