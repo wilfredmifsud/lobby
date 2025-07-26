@@ -11,7 +11,7 @@ function getRandomRPS() {
 }
 
 function determineWin(player, dealer) {
-  if (player === dealer) return null; 
+  if (player === dealer) return null;
   if (
     (player === 'rock' && dealer === 'scissors') ||
     (player === 'paper' && dealer === 'rock') ||
@@ -24,7 +24,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
-  console.log('⚡ Client connected');
+  console.log('Client connected');
 
   // fake wallet balance for the client
   ws.wallet = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
@@ -66,7 +66,7 @@ wss.on('connection', (ws) => {
         const dealerMove = getRandomRPS();
         const win = determineWin(move, dealerMove);
 
-     
+
         if (win === true) {
           ws.wallet += amount;
         } else if (win === false) {
@@ -77,7 +77,7 @@ wss.on('connection', (ws) => {
           type: 'BET_RESULT',
           dealerMove,
           playerMove: move,
-          win, 
+          win,
           amount,
           wallet: ws.wallet,
           round: Date.now(),
@@ -89,16 +89,16 @@ wss.on('connection', (ws) => {
 
       ws.send(JSON.stringify({ type: 'ERROR', message: 'Unknown message type' }));
     } catch (err) {
-      console.error('❌ Invalid message format:', message);
+      console.error('Invalid message format:', message);
       ws.send(JSON.stringify({ type: 'ERROR', message: 'Invalid JSON format' }));
     }
   });
 
   ws.on('close', () => {
-    console.log('🔌 Client disconnected');
+    console.log('Client disconnected');
   });
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 Mock RPS server running on http://localhost:${PORT}`);
+  console.log(`Mock server running on http://localhost:${PORT}`);
 });

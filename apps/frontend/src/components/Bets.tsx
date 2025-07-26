@@ -3,12 +3,11 @@ import { RootState } from "../state/store";
 import {
   Paper,
   Title,
-  Divider,
-  Table,
-  Box,
   Card,
   Text,
+  Box,
   Stack,
+  Group,
 } from "@mantine/core";
 import WalletDisplay from "./Wallet";
 import { useMediaQuery } from "@mantine/hooks";
@@ -21,100 +20,95 @@ export default function BetsPanel() {
     <Box style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <WalletDisplay isMobile={isMobile} wallet={wallet} />
 
-      <Paper shadow="md" radius="md" style={{ overflowX: "auto" }}>
-        <Title order={2} mb="md" p={10}>
-          Your Bets ({history.length} rounds)
+      <Paper shadow="md" radius="md" >
+        <Title order={5} mb="md" p={10}>
+          Your Bets (Last {history.length} Rounds)
         </Title>
-        <Divider my="sm" />
+        <Stack gap="xs" px="sm">
+          {history.length ? (
+            history.map((bet) => {
+              const walletAfter = bet.wallet;
+              const delta =
+                bet.result === "win"
+                  ? `+ $${bet.amount}`
+                  : bet.result === "lose"
+                    ? `- $${bet.amount}`
+                    : "+ $0";
 
-        {isMobile ? (
-          <Stack>
-            {history.length ? (
-              history.map((bet) => (
-                <Card key={bet.round} withBorder padding="md" radius="md">
-                  <Text size="sm" fw={700}>
-                   {new Date(bet.round).toLocaleTimeString(undefined, {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    fractionalSecondDigits: 3,
-                    hour12: false,
-                  })}
-                  </Text>
-                  <Text size="sm">Move: {bet.bet.toUpperCase()}</Text>
-                  <Text size="sm">Dealer: {bet.dealerMove.toUpperCase()}</Text>
-                  <Text size="sm">Amount: ${bet.amount}</Text>
-                  <Text
-                    size="sm"
-                    fw={600}
-                    c={
-                      bet.result === "win"
-                        ? "green"
-                        : bet.result === "lose"
-                          ? "red"
-                          : "yellow"
-                    }
-                  >
-                    Result: {bet.result.toUpperCase()}
-                  </Text>
-                  <Text size="sm">Wallet: ${bet.wallet}</Text>
+              const resultColor =
+                bet.result === "win"
+                  ? "green"
+                  : bet.result === "lose"
+                    ? "red"
+                    : "yellow";
+
+              const borderLeftColor =
+                bet.result === "win"
+                  ? "5px solid green"
+                  : bet.result === "lose"
+                    ? "5px solid red"
+                    : "5px solid yellow";
+
+              return (
+                <Card
+                  key={bet.round}
+                  withBorder
+                  radius="md"
+                  padding="xs"
+                  style={{ borderLeft: borderLeftColor }}
+                >
+                  <Group align="center" justify="space-between" dir="row">
+                    <Group gap="xs">
+                      <Text size="xs" fw={600}>
+                        {new Date(bet.round).toLocaleTimeString(undefined, {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          fractionalSecondDigits: 2,
+                          hour12: false,
+                        })}
+                      </Text>
+                      <Group gap="xs">
+                        <Text size="xs" fw={600} c={resultColor}>
+                          (YOU) {bet.bet.toUpperCase()} vs {bet.dealerMove.toUpperCase()} (DEALER)
+                        </Text>
+                      </Group>
+                    </Group>
+
+                    <Group>
+                      <Stack gap={0} style={{ minWidth: 120 }}>
+                        <Text size="xs">
+                          <strong>
+                            {bet.result === "draw"
+                              ? "No change:"
+                              : bet.result === "win"
+                                ? "Amount won:"
+                                : "Amount lost:"}
+                          </strong>
+                        </Text>
+                        <Text size="xs">
+                          <strong>Balance:</strong>
+                        </Text>
+                      </Stack>
+
+                      <Stack gap={0} align="flex-end" style={{ minWidth: 70 }}>
+                        <Text size="xs" c={resultColor} fw={700}>
+                          {delta}
+                        </Text>
+                        <Text size="xs">${walletAfter}</Text>
+                      </Stack>
+                    </Group>
+                  </Group>
                 </Card>
-              ))
-            ) : (
-              <Text>No Rounds Played</Text>
-            )}
-          </Stack>
-        ) : (
-          <Table striped highlightOnHover withColumnBorders>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Round</Table.Th>
-                <Table.Th>Move</Table.Th>
-                <Table.Th>Dealer</Table.Th>
-                <Table.Th>Amount</Table.Th>
-                <Table.Th>Result</Table.Th>
-                <Table.Th>Wallet</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {history.length ? (
-                history.map((bet) => (
-                  <Table.Tr key={bet.round}>
-                    <Table.Td>{new Date(bet.round).toLocaleTimeString(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    fractionalSecondDigits: 3,
-    hour12: false,
-  })}</Table.Td>
-                    <Table.Td>{bet.bet.toUpperCase()}</Table.Td>
-                    <Table.Td>{bet.dealerMove.toUpperCase()}</Table.Td>
-                    <Table.Td>${bet.amount}</Table.Td>
-                    <Table.Td
-                      style={{
-                        color:
-                          bet.result === "win"
-                            ? "lime"
-                            : bet.result === "lose"
-                              ? "red"
-                              : "yellow",
-                      }}
-                    >
-                      {bet.result.toUpperCase()}
-                    </Table.Td>
-                    <Table.Td>${bet.wallet}</Table.Td>
-                  </Table.Tr>
-                ))
-              ) : (
-                <Table.Tr>
-                  <Table.Td colSpan={6} style={{ textAlign: "center" }}>
-                    No Rounds Played
-                  </Table.Td>
-                </Table.Tr>
-              )}
-            </Table.Tbody>
-          </Table>
-        )}
+              );
+            })
+          ) : (
+            <Text ta="center" py="sm">
+              No Rounds Played
+            </Text>
+          )}
+        </Stack>
+
       </Paper>
     </Box>
   );

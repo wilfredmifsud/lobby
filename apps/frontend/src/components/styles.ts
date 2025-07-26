@@ -114,10 +114,10 @@ export const LobbyFooterPlayStyle: CSSProperties = {
   textShadow: '0 1px 0 #8b6508',
   transition: 'background 0.3s ease',
   padding: '12px 24px',
-  width:'100%',
+  width: '100%',
 }
 
 export const WalletTextStyle = (isMobile: boolean): CSSProperties => ({
-  fontSize: isMobile ? 16 : 50,
+  fontSize: isMobile ? 16 : 35,
   color: "gold",
 });

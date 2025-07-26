@@ -31,6 +31,7 @@ export const betsSlice = createSlice({
     },
     addBet: (state, action: PayloadAction<Bet>) => {
       state.history.unshift(action.payload);
+      state.history = state.history.slice(0, 10);
     },
     clearBets: (state) => {
       state.history = [];
