@@ -1,53 +1,56 @@
-export const LobbyContainerStyle = {
+import type { CSSProperties } from "react";
+
+export const LobbyContainerStyle: CSSProperties = {
   minHeight: "100vh",
   height: "100vh",
   display: "flex",
-  flexDirection: "column" as const,
+  flexDirection: "column",
 };
 
-export const LobbyGroupStyle = {
+export const LobbyGroupStyle: CSSProperties = {
   height: "100vh",
-  flexDirection: "row" as const,
+  display: "flex",
+  flexDirection: "row",
 };
 
-export const LobbyMainBoxStyle = (isMobile: boolean) => ({
+export const LobbyMainBoxStyle = (isMobile: boolean): CSSProperties => ({
   flex: 2,
   minHeight: 0,
-  position: "relative" as const,
+  position: "relative",
   display: "flex",
-  flexDirection: "column" as const,
+  flexDirection: "column",
   height: "100%",
   paddingBottom: isMobile ? 120 : 0,
 });
 
-export const LobbyBurgerBoxStyle = {
-  position: "absolute" as const,
+export const LobbyBurgerBoxStyle: CSSProperties = {
+  position: "absolute",
   top: 0,
   left: 0,
   zIndex: 10,
 };
 
-export const LobbyRoundBoxStyle = (isMobile: boolean) => ({
+export const LobbyRoundBoxStyle = (isMobile: boolean): CSSProperties => ({
   flex: 1,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  flexDirection: "column" as const,
+  flexDirection: "column",
   padding: isMobile ? 12 : 24,
-  overflowY: "auto" as const,
+  overflowY: "auto",
   width: "100%",
 });
 
-export const LobbyDrawerPaperStyle = {
+export const LobbyDrawerPaperStyle: CSSProperties = {
   flex: 1,
   minWidth: 280,
   minHeight: 0,
   height: "100%",
-  overflow: "auto" as const,
+  overflow: "auto",
   backgroundColor: "var(--mantine-color-dark-6)",
 };
 
-export const LobbyFooterBoxStyle = (isMobile: boolean) => ({
+export const LobbyFooterBoxStyle = (isMobile: boolean): CSSProperties => ({
   position: isMobile ? "fixed" : "absolute",
   left: 0,
   right: 0,
@@ -61,15 +64,15 @@ export const LobbyFooterBoxStyle = (isMobile: boolean) => ({
   zIndex: 999,
 });
 
-export const LobbyFooterControlsWrapperStyle = (isMobile: boolean) => ({
+export const LobbyFooterControlsWrapperStyle = (isMobile: boolean): CSSProperties => ({
   display: "flex",
-  flexDirection: isMobile ? "column" : "column",
+  flexDirection: "column",
   alignItems: "center",
   gap: 8,
   width: isMobile ? "100%" : "auto",
 });
 
-export const LobbyFooterSwitchesStyle = (isMobile: boolean) => ({
+export const LobbyFooterSwitchesStyle = (isMobile: boolean): CSSProperties => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -77,7 +80,7 @@ export const LobbyFooterSwitchesStyle = (isMobile: boolean) => ({
   marginBottom: isMobile ? 8 : 0,
 });
 
-export const BetControlWrapperStyle = {
+export const BetControlWrapperStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -99,12 +102,12 @@ export const BetControlNumberInputStyles = {
   },
 };
 
-export const BetControlSelectedButtonStyle = {
+export const BetControlSelectedButtonStyle: CSSProperties = {
   borderWidth: 3,
   borderColor: "#ccc",
 };
 
-export const WalletTextStyle = (isMobile: boolean) => ({
+export const WalletTextStyle = (isMobile: boolean): CSSProperties => ({
   fontSize: isMobile ? 16 : 50,
   color: "gold",
   animation: "walletChange 0.4s ease-in-out",

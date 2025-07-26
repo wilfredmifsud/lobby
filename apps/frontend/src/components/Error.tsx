@@ -8,7 +8,7 @@ export default function ConnectionErrorOverlay() {
   if (!wsError) return null;
 
   return (
-    <Overlay blur={4} center fixed zIndex={500}>
+    <Overlay blur={4} center fixed zIndex={9999999}>
       <Center style={{ height: "100vh", flexDirection: "column" }}>
         <Text c="red.5" size="xl" fw={700}>
           Connection Error

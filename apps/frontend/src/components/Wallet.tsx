@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Box, Group, Text } from "@mantine/core";
+import { Box, Text } from "@mantine/core";
 import { BetControlWrapperStyle, WalletTextStyle } from "./styles";
 
 const WalletDisplay = memo(
