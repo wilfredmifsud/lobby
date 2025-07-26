@@ -1,27 +1,31 @@
 export interface WSInitMessage {
-    type: "INIT";
-    wallet: number;
+  type: "INIT";
+  wallet: number;
 }
 
 export interface WSBetResultMessage {
-    type: "BET_RESULT";
-    playerMove: string;
-    dealerMove: string;
-    win: boolean | null;
-    amount: number;
-    wallet: number;
-    round: number;
+  type: "BET_RESULT";
+  playerMove: string;
+  dealerMove: string;
+  win: boolean | null;
+  amount: number;
+  wallet: number;
+  round: number;
 }
 
 export interface WSNoCreditsMessage {
-    type: "NO_CREDITS";
+  type: "NO_CREDITS";
 }
 
 export interface WSErrorMessage {
-    type: "ERROR";
-    message: string;
+  type: "ERROR";
+  message: string;
 }
 
-export type WSMessage =     WSInitMessage     | WSBetResultMessage    | WSNoCreditsMessage    | WSErrorMessage;
+export type WSMessage =
+  | WSInitMessage
+  | WSBetResultMessage
+  | WSNoCreditsMessage
+  | WSErrorMessage;
 
 export type GameResult = "win" | "lose" | "draw";

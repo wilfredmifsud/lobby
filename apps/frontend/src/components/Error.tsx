@@ -1,19 +1,14 @@
 import { Overlay, Center, Text, Box } from "@mantine/core";
 import { useSelector } from "react-redux";
-import type { RootState } from "./store";
+import { RootState } from "../state/store";
 
-const ConnectionErrorOverlay = () => {
+export default function ConnectionErrorOverlay() {
   const wsError = useSelector((state: RootState) => state.game.connectionError);
 
   if (!wsError) return null;
 
   return (
-    <Overlay
-      blur={4}
-      center
-      fixed
-      zIndex={500}
-    >
+    <Overlay blur={4} center fixed zIndex={500}>
       <Center style={{ height: "100vh", flexDirection: "column" }}>
         <Text c="red.5" size="xl" fw={700}>
           Connection Error
@@ -24,6 +19,4 @@ const ConnectionErrorOverlay = () => {
       </Center>
     </Overlay>
   );
-};
-
-export default ConnectionErrorOverlay
+}

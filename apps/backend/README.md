@@ -15,8 +15,10 @@ This is a mock server for rock-paper-scissors (RPS).
   ```
 
 ## Features
+
 - Returns random RPS results for dealer and player.
 
 ## Requirements
+
 - Node.js
 - Express

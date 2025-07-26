@@ -1,4 +1,9 @@
-import { handleBetResult, handleError, handleInit, handleNoCredits } from "./handlers";
+import {
+  handleBetResult,
+  handleError,
+  handleInit,
+  handleNoCredits,
+} from "./handlers";
 import { WSMessage } from "./model";
 import { setConnectionError } from "../state/features/gameSlice"; // or wherever your reducer is
 import { store } from "../state/store";

@@ -2,18 +2,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface GameState {
-    autoplay: boolean;
-    autoplayChecked: boolean;
-    shuffle: boolean;
-    connectionError: string | null;
-  }
-  
+  autoplay: boolean;
+  autoplayChecked: boolean;
+  shuffle: boolean;
+  connectionError: string | null;
+}
 
 const initialState: GameState = {
   autoplay: false,
   autoplayChecked: false,
   shuffle: false,
-  connectionError: null
+  connectionError: null,
 };
 
 const gameSlice = createSlice({
@@ -30,8 +29,8 @@ const gameSlice = createSlice({
       state.shuffle = action.payload;
     },
     setConnectionError: (state, action: PayloadAction<string | null>) => {
-        state.connectionError = action.payload;
-    }
+      state.connectionError = action.payload;
+    },
   },
 });
 
@@ -39,7 +38,7 @@ export const {
   setAutoplay,
   setAutoplayChecked,
   setShuffle,
-  setConnectionError
+  setConnectionError,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

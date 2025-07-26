@@ -1,8 +1,25 @@
-import React from 'react';
+import React from "react";
 import { FaHandRock, FaHandPaper, FaHandScissors } from "react-icons/fa";
 
+export const MOVE_OPTIONS = ["rock", "paper", "scissors"] as const;
+
+export const MOVE_COLORS: Record<string, string> = {
+  rock: "teal",
+  paper: "blue",
+  scissors: "red",
+};
+
 export const moveIconMap = {
-  rock: { smallIcon: <FaHandRock style={{marginLeft: 10}} size={28} />, largeIcon:  <FaHandRock size={150} /> },
-  paper: { smallIcon: <FaHandPaper style={{marginLeft: 10}}  size={28} />, largeIcon:  <FaHandPaper size={150} /> },
-  scissors: { smallIcon: <FaHandScissors style={{marginLeft: 10}}  size={28} />, largeIcon:  <FaHandScissors size={150} /> }
+  rock: {
+    smallIcon: <FaHandRock style={{ marginLeft: 10 }} size={28} />,
+    largeIcon: <FaHandRock size={150} />,
+  },
+  paper: {
+    smallIcon: <FaHandPaper style={{ marginLeft: 10 }} size={28} />,
+    largeIcon: <FaHandPaper size={150} />,
+  },
+  scissors: {
+    smallIcon: <FaHandScissors style={{ marginLeft: 10 }} size={28} />,
+    largeIcon: <FaHandScissors size={150} />,
+  },
 };

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Bet = {
   user: string;
@@ -35,7 +35,7 @@ const initialState: BetsState = {
 };
 
 export const betsSlice = createSlice({
-  name: 'bets',
+  name: "bets",
   initialState,
   reducers: {
     setWallet: (state, action: PayloadAction<number>) => {

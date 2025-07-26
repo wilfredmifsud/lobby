@@ -15,7 +15,7 @@ nvm use 20
 yarn
 ```
 
-## Running the Apps
+## Running the App all together
 
 ```bash
 yarn dev
@@ -30,3 +30,10 @@ apps/
 ├── frontend      # Vite + React frontend
 └── demorng       # WebSocket backend (mock server)
 ```
+
+# Notes
+
+1. Used ChatGPT / Cursor AI for
+   a. creating the backend MOCK server (was out of scope of this interview, but wanted to more casino oriented software with server instructions)
+   b. GSAP animations (its a new library for me, but was fun learning how it works)
+   c. some generic use to create basic functionality which was verified manually
