@@ -86,7 +86,7 @@ export default function Lobby() {
     if (autoplay && !loading && betAmount > 0 && betAmount <= wallet) {
       const timer = setTimeout(() => {
         handlePlay(false);
-      }, 1000);
+      }, 1200);
       return () => clearTimeout(timer);
     }
   }, [lastRound, autoplay, loading, betAmount, wallet, handlePlay]);

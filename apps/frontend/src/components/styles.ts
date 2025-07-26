@@ -110,5 +110,4 @@ export const BetControlSelectedButtonStyle: CSSProperties = {
 export const WalletTextStyle = (isMobile: boolean): CSSProperties => ({
   fontSize: isMobile ? 16 : 50,
   color: "gold",
-  animation: "walletChange 0.4s ease-in-out",
 });

@@ -24,8 +24,8 @@ export default function BetsPanel() {
       <WalletDisplay isMobile={isMobile} wallet={wallet} />
 
       <Paper shadow="md" radius="md" style={{ overflowX: "auto" }}>
-        <Title order={2} mb="md">
-          Your Bets
+        <Title order={2} mb="md" p={10}>
+          Your Bets ({history.length} rounds)
         </Title>
         <Divider my="sm" />
 
