@@ -1,11 +1,14 @@
-import { Group, Box, Button, NumberInput } from "@mantine/core";
-import { MOVE_COLORS, MOVE_OPTIONS, moveIconMap } from "../const";
+import { Group, Box, Button } from "@mantine/core";
+import { MOVE_COLORS, MOVE_OPTIONS, moveIconMap, PRESET_BET_AMOUNTS } from "../const";
 import {
-  BetControlNumberInputStyles,
   BetControlSelectedButtonStyle,
   BetControlWrapperStyle,
 } from "./styles";
 import { LobbyFooterControlsProps } from "./model";
+import { useDispatch } from "react-redux";
+import { setBetAmount } from "../state/features/betSlice";
+import { Notification } from "@mantine/core";
+
 
 export default function BetControls({
   choice,
@@ -14,18 +17,32 @@ export default function BetControls({
   wallet,
   handleChoice,
 }: LobbyFooterControlsProps) {
+  const dispatch = useDispatch();
   return (
     <Box style={BetControlWrapperStyle}>
-      <NumberInput
-        value={betAmount}
-        onChange={() => handleChoice("")}
-        min={1}
-        max={wallet}
-        step={1}
-        label="Bet Amount"
-        hideControls
-        styles={BetControlNumberInputStyles}
-      />
+      {wallet <= 1 ? <Notification w={'100%'}
+      color="red"
+      title="Insufficient Funds"
+      withCloseButton={false}
+    >
+      No credit left in your wallet.
+    </Notification> : 
+      <Group mb="sm" gap={'6px'} align="center" justify="center">
+        {PRESET_BET_AMOUNTS.map((amount) => (
+          <Button
+            key={amount}
+            size="sm"
+            variant={betAmount === amount ? "filled" : "outline"}
+            onClick={() => {
+              dispatch(setBetAmount(amount));
+            }}
+            disabled={amount > wallet}
+          >
+            ${amount}
+          </Button>
+        ))}
+      </Group>}
+
       <Group gap="md">
         {MOVE_OPTIONS.map((move) => (
           <Button

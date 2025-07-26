@@ -25,9 +25,11 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('⚡ Client connected');
-  ws.wallet = 56;
 
-  ws.send(JSON.stringify({ type: 'SYSTEM', message: 'Connected to RPS WebSocket server' }));
+  // fake wallet balance for the client
+  ws.wallet = +(Math.random() * (1000 - 10) + 10).toFixed(2);
+
+  ws.send(JSON.stringify({ type: 'SYSTEM', message: 'Connected to WebSocket server' }));
   ws.on('message', (message) => {
     try {
       const parsed = JSON.parse(message);

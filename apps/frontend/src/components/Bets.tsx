@@ -33,7 +33,13 @@ export default function BetsPanel() {
               history.map((bet) => (
                 <Card key={bet.round} withBorder padding="md" radius="md">
                   <Text size="sm" fw={700}>
-                    Round #{String(bet.round).slice(-6)}
+                   {new Date(bet.round).toLocaleTimeString(undefined, {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    fractionalSecondDigits: 3,
+                    hour12: false,
+                  })}
                   </Text>
                   <Text size="sm">Move: {bet.bet.toUpperCase()}</Text>
                   <Text size="sm">Dealer: {bet.dealerMove.toUpperCase()}</Text>
@@ -74,7 +80,13 @@ export default function BetsPanel() {
               {history.length ? (
                 history.map((bet) => (
                   <Table.Tr key={bet.round}>
-                    <Table.Td>{String(bet.round).slice(-6)}</Table.Td>
+                    <Table.Td>{new Date(bet.round).toLocaleTimeString(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    fractionalSecondDigits: 3,
+    hour12: false,
+  })}</Table.Td>
                     <Table.Td>{bet.bet.toUpperCase()}</Table.Td>
                     <Table.Td>{bet.dealerMove.toUpperCase()}</Table.Td>
                     <Table.Td>${bet.amount}</Table.Td>

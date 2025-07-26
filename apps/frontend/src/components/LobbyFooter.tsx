@@ -29,9 +29,10 @@ function LobbyFooter({
     <Box style={LobbyFooterBoxStyle(isMobile)}>
       <Group
         justify="space-between"
-        align={isMobile ? "stretch" : "center"}
+        align="center"
         wrap="wrap"
         gap={isMobile ? "md" : "lg"}
+        w='100%'
       >
         <BetControls
           betAmount={betAmount}
