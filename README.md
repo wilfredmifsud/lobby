@@ -32,8 +32,5 @@ apps/
 ```
 
 # Notes
-
-1. Used ChatGPT / Cursor AI for
-   a. creating the backend MOCK server (was out of scope of this interview, but wanted to more casino oriented software with server instructions)
-   b. GSAP animations (its a new library for me, but was fun learning how it works)
-   c. some generic use to create basic functionality which was verified manually
+1. Forked Fronend boilerplate from https://github.com/mantinedev/vite-min-template
+2. Used ChatGPT / Cursor AI for creating the backend MOCK server (was out of scope of this interview, but wanted to more casino oriented software with server instructions), GSAP animations (its a new library for me, but was fun learning how it works) and some generic use to create basic functionality which was verified manually
