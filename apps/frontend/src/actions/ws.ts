@@ -21,10 +21,10 @@ let reconnectAttempts = 0;
 export const connectWebSocket = () => {
   if (ws && ws.readyState === WebSocket.OPEN) return;
 
-  ws = new WebSocket(WS_URL);
-
+  ws = new WebSocket(WS_URL)!;
+  
   ws.onopen = () => {
-    if (ws.readyState === WebSocket.OPEN) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
 
       reconnectAttempts = 0; // reset on success
@@ -56,8 +56,6 @@ export const connectWebSocket = () => {
         case "ERROR":
           handleError();
           break;
-        default:
-          console.warn("Unknown message type received:", data.type);
       }
     } catch (err) {
       const msg = "Failed to parse WebSocket message:";
