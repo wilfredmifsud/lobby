@@ -29,4 +29,4 @@ export const getMoveIcon = (move: string, size: "small" | "large") => {
   return size === "small" ? icon.smallIcon : icon.largeIcon;
 } 
 
-export const PRESET_BET_AMOUNTS = [1, 5, 10, 20, 50, 100];
+export const PRESET_BET_AMOUNTS = [5, 10, 20, 50, 100];

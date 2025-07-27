@@ -29,7 +29,7 @@ function LobbyFooter({
   return (
     <Box style={LobbyFooterBoxStyle(isMobile)}>
       <Group
-        justify="space-between"
+        justify="center"
         align="center"
         wrap="wrap"
         gap={isMobile ? "md" : "lg"}

@@ -16,6 +16,7 @@ let keepAliveInterval: NodeJS.Timeout;
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000";
 const KEEP_ALIVE_INTERVAL = 20000; // 20 seconds
+let reconnectAttempts = 0;
 
 export const connectWebSocket = () => {
   if (ws && ws.readyState === WebSocket.OPEN) return;
@@ -23,9 +24,10 @@ export const connectWebSocket = () => {
   ws = new WebSocket(WS_URL);
 
   ws.onopen = () => {
-    if (ws && ws.readyState === WebSocket.OPEN) {
+    if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
 
+      reconnectAttempts = 0; // reset on success
       clearInterval(keepAliveInterval);
       keepAliveInterval = setInterval(() => {
         if (ws && ws.readyState === WebSocket.OPEN) {
@@ -33,7 +35,7 @@ export const connectWebSocket = () => {
         }
       }, KEEP_ALIVE_INTERVAL);
     } else {
-      console.warn('WebSocket onopen fired but readyState is not OPEN:');
+      console.warn("WebSocket onopen fired but readyState is not OPEN.");
     }
   };
 
@@ -54,6 +56,8 @@ export const connectWebSocket = () => {
         case "ERROR":
           handleError();
           break;
+        default:
+          console.warn("Unknown message type received:", data.type);
       }
     } catch (err) {
       const msg = "Failed to parse WebSocket message:";
@@ -67,11 +71,14 @@ export const connectWebSocket = () => {
     console.warn(msg);
     store.dispatch(setConnectionError(msg));
     clearInterval(keepAliveInterval);
-    reconnectTimeout = setTimeout(connectWebSocket, 3000);
+    clearTimeout(reconnectTimeout);
+
+    const delay = Math.min(10000, 1000 * 2 ** reconnectAttempts++);
+    reconnectTimeout = setTimeout(connectWebSocket, delay);
   };
 
   ws.onerror = (e) => {
-    const msg = "Server disconnected";
+    const msg = "WebSocket error occurred";
     store.dispatch(setConnectionError(msg));
     console.error(msg, e);
   };
@@ -81,8 +88,19 @@ export const sendBet = (move: string, amount: number) => {
   if (ws && ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify({ type: "BET", move, amount }));
   } else {
-    const msg = "Server not ready yet. bet failed!";
+    const msg = "Server not ready yet. Bet failed!";
     store.dispatch(setConnectionError(msg));
     console.warn(msg);
   }
 };
+
+// Reconnect when the tab becomes visible (especially for mobile devices)
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    setTimeout(() => {
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        connectWebSocket();
+      }
+    }, 500);
+  }
+});

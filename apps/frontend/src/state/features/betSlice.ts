@@ -30,8 +30,9 @@ export const betsSlice = createSlice({
       state.lastRound = action.payload;
     },
     addBet: (state, action: PayloadAction<Bet>) => {
+      // keep the last 5 bets (for this demo purpose, which in an ideal world would be something more robust and performant)
       state.history.unshift(action.payload);
-      state.history = state.history.slice(0, 10);
+      state.history = state.history.slice(0, 5);
     },
     clearBets: (state) => {
       state.history = [];

@@ -81,7 +81,7 @@ export default function Lobby() {
       const timer = setTimeout(() => { handlePlay(false); }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [autoplay]);
+  },  [lastRound, autoplay, loading, betAmount, wallet]);
 
   return (
     <MantineProvider defaultColorScheme="dark">
