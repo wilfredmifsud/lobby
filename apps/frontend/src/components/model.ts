@@ -2,14 +2,13 @@ export interface LobbyFooterProps {
   choice: string | null;
   loading: boolean;
   betAmount: number;
-  autoplay: boolean;
-  autoplayChecked: boolean;
-  shuffle: boolean;
   wallet: number;
   handleChoice: (move: string) => void;
   handlePlay: (manual: boolean) => void;
-  onToggleAutoplay: (checked: boolean) => void;
-  onToggleShuffle: (checked: boolean) => void;
+}
+
+export interface HeaderProps {
+  wallet: number;
 }
 
 export interface LobbyFooterControlsProps {
@@ -30,12 +29,12 @@ export interface Bet {
   result: GameResult;
   wallet: number;
   round: number;
-};
+}
 
 export interface LastRound {
   playerMove: string;
   dealerMove: string;
-  result: GameResult
+  result: GameResult;
 }
 
 export interface BetsState {
@@ -44,17 +43,9 @@ export interface BetsState {
   choice: string | null;
   loading: boolean;
   lastRound: LastRound | null;
-  history: Bet[];
+  connectionError: string | null;
 }
-
 
 export interface IBetsProps {
   lastRound: LastRound | null;
-}
-
-export interface GameState {
-  autoplay: boolean;
-  autoplayChecked: boolean;
-  shuffle: boolean;
-  connectionError: string | null;
 }

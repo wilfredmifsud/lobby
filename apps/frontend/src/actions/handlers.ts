@@ -3,7 +3,6 @@ import { WSMessage } from "./model";
 import {
   setWallet,
   setLastRound,
-  addBet,
   setLoading,
 } from "../state/features/betSlice";
 import { getResultText } from "./const";
@@ -25,17 +24,18 @@ export const handleBetResult = (
   );
   store.dispatch(setWallet(data.wallet));
   store.dispatch(setLoading(false));
-  store.dispatch(
-    addBet({
-      user: "You",
-      amount: data.amount,
-      bet: data.playerMove,
-      dealerMove: data.dealerMove,
-      wallet: data.wallet,
-      result,
-      round: data.round,
-    }),
-  );
+  // todo remove
+  // store.dispatch(
+  //   addBet({
+  //     user: "You",
+  //     amount: data.amount,
+  //     bet: data.playerMove,
+  //     dealerMove: data.dealerMove,
+  //     wallet: data.wallet,
+  //     result,
+  //     round: data.round,
+  //   }),
+  // );
 };
 
 export const handleNoCredits = () => {

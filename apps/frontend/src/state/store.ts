@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import betsReducer from "./features/betSlice";
-import gameReducer from "./features/gameSlice";
 
 export const store = configureStore({
   reducer: {
     bets: betsReducer,
-    game: gameReducer,
   },
 });
 

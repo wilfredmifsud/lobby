@@ -7,7 +7,7 @@ const initialState: BetsState = {
   choice: null,
   loading: false,
   lastRound: null,
-  history: [],
+  connectionError: null,
 };
 
 export const betsSlice = createSlice({
@@ -29,13 +29,8 @@ export const betsSlice = createSlice({
     setLastRound: (state, action: PayloadAction<LastRound | null>) => {
       state.lastRound = action.payload;
     },
-    addBet: (state, action: PayloadAction<Bet>) => {
-      // keep the last 5 bets (for this demo purpose, which in an ideal world would be something more robust and performant)
-      state.history.unshift(action.payload);
-      state.history = state.history.slice(0, 5);
-    },
-    clearBets: (state) => {
-      state.history = [];
+    setConnectionError: (state, action: PayloadAction<string | null>) => {
+      state.connectionError = action.payload;
     },
   },
 });
@@ -46,8 +41,7 @@ export const {
   setChoice,
   setLoading,
   setLastRound,
-  addBet,
-  clearBets,
+  setConnectionError,
 } = betsSlice.actions;
 
 export default betsSlice.reducer;

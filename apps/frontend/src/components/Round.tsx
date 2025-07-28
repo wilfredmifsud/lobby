@@ -1,81 +1,13 @@
-import { useEffect, useRef } from "react";
-import {
-  Box,
-  Group,
-  Title,
-  Text,
-  Center,
-  Card,
-  Image,
-  Avatar,
-} from "@mantine/core";
-import { gsap } from "gsap";
-import { getMoveIcon } from "../const";
 import { IBetsProps } from "./model";
 
 const Round = ({ lastRound }: IBetsProps) => {
-  const playerRef = useRef<HTMLDivElement>(null);
-  const dealerRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (!playerRef.current || !dealerRef.current || !titleRef.current) return;
-
-    const tl = gsap.timeline();
-    tl.set([playerRef.current, dealerRef.current], {
-      x: (i: number) => (i === 0 ? -500 : 500),
-      opacity: 0,
-      scale: 1,
-    });
-
-    tl.to([playerRef.current, dealerRef.current], {
-      x: 0,
-      opacity: 1,
-      duration: 0.4,
-      ease: "power2.out",
-    });
-
-    tl.to([playerRef.current, dealerRef.current], {
-      scale: 1.1,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1,
-      ease: "power1.inOut",
-    });
-
-    tl.fromTo(
-      titleRef.current,
-      {
-        scale: 0,
-        rotation: -20,
-        opacity: 0,
-      },
-      {
-        scale: 1.4,
-        rotation: 0,
-        opacity: 1,
-        duration: 0.4,
-        ease: "elastic.out(1, 0.4)",
-      },
-      "-=0.1",
-    );
-  }, [lastRound]);
-
   if (!lastRound) {
     return (
-      <Center
-        style={{
-          background: "var(--mantine-color-dark-5)",
-          borderRadius: 12,
-          padding: 24,
-          animation: "fadeSlideIn 0.4s ease-out",
-        }}
-      >
-        <Title order={2} c="gray">
+      <div className="flex items-center justify-center rounded-xl bg-gray-800 p-6">
+        <h2 className="text-2xl font-bold text-gray-400">
           SELECT ONE AND START YOUR FIRST BET!
-        </Title>
-      </Center>
+        </h2>
+      </div>
     );
   }
 
@@ -84,107 +16,55 @@ const Round = ({ lastRound }: IBetsProps) => {
   const isDealerWinner = lastRound.result === "lose";
 
   const getCardBg = (isWinner: boolean) => {
-    if (isDraw) return "linear-gradient(135deg, #2e2e2e, #1a1a1a)";
-    if (isWinner) return "linear-gradient(135deg, #38a169, #22543d)";
-    return "linear-gradient(135deg, #c53030, #742a2a)";
+    if (isDraw) return "bg-gradient-to-br from-gray-800 to-gray-900";
+    if (isWinner) return "bg-gradient-to-br from-green-500 to-green-800";
+    return "bg-gradient-to-br from-red-600 to-red-900";
   };
 
   return (
-    <Box
-      ref={wrapperRef}
-      style={{
-        minWidth: "100%",
-        height: "100%",
-        textAlign: "center",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 24,
-        borderRadius: 12,
-        background: "var(--mantine-color-dark-7)",
-      }}
-    >
-      <Title
-        ref={titleRef}
-        fw={900}
-        size={40}
-        style={{
-          marginBottom: 32,
-          color:
-            lastRound.result === "win"
-              ? "var(--mantine-color-green-5)"
-              : lastRound.result === "lose"
-                ? "var(--mantine-color-red-5)"
-                : "var(--mantine-color-yellow-5)",
-          textShadow: "0 0 20px rgba(255,255,255,0.2)",
-          opacity: 0,
-          transform: "scale(0)",
-        }}
+    <div className="w-full h-full text-center flex flex-col items-center justify-center p-6 rounded-xl bg-gray-900">
+      <h1
+        className={`mb-8 text-4xl font-extrabold ${
+          lastRound.result === "win"
+            ? "text-green-400"
+            : lastRound.result === "lose"
+              ? "text-red-400"
+              : "text-yellow-400"
+        }`}
       >
         {lastRound.result.toUpperCase()}!
-      </Title>
+      </h1>
 
-      <Group justify="center" align="flex-start" grow>
-        <Card
-          ref={playerRef}
-          withBorder
-          radius="md"
-          padding="lg"
-          style={{
-            flex: 1,
-            background: getCardBg(isPlayerWinner),
-            color: "white",
-            textAlign: "center",
-          }}
+      <div className="flex flex-col md:flex-row gap-4 w-full max-w-3xl">
+        <div
+          className={`flex-1 rounded-md border border-gray-700 p-6 text-white text-center ${getCardBg(
+            isPlayerWinner,
+          )}`}
         >
-          <Avatar size={120} mx="auto" radius="xl">
-            <Image
-              src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png"
-              alt="Player"
-              height={120}
-              width={120}
-              fit="contain"
-            />
-          </Avatar>
-          <Title order={3} mt="md">
-            YOU
-          </Title>
-          <Box mt="md">{getMoveIcon(lastRound.playerMove, "large")}</Box>
-          <Text mt="sm" c="gray.3">
+          <h3 className="text-xl font-semibold mt-2">YOU</h3>
+          <div className="mt-4 flex justify-center">
+           { lastRound.playerMove}
+          </div>
+          <p className="mt-2 text-gray-300">
             {lastRound.playerMove.toUpperCase()}
-          </Text>
-        </Card>
+          </p>
+        </div>
 
-        <Card
-          ref={dealerRef}
-          withBorder
-          radius="md"
-          padding="lg"
-          style={{
-            flex: 1,
-            background: getCardBg(isDealerWinner),
-            color: "white",
-            textAlign: "center",
-          }}
+        <div
+          className={`flex-1 rounded-md border border-gray-700 p-6 text-white text-center ${getCardBg(
+            isDealerWinner,
+          )}`}
         >
-          <Avatar size={120} mx="auto" radius="xl">
-            <Image
-              src="https://cdn0.iconfinder.com/data/icons/casino-poker-and-cash-monney/512/casino-1024.png"
-              alt="Dealer"
-              height={120}
-              width={120}
-              fit="contain"
-            />
-          </Avatar>
-          <Title order={3} mt="md">
-            DEALER
-          </Title>
-          <Box mt="md">{getMoveIcon(lastRound.dealerMove, "large")}</Box>
-          <Text mt="sm" c="gray.3">
+          <h3 className="text-xl font-semibold mt-2">DEALER</h3>
+          <div className="mt-4 flex justify-center">
+            {lastRound.dealerMove}
+          </div>
+          <p className="mt-2 text-gray-300">
             {lastRound.dealerMove.toUpperCase()}
-          </Text>
-        </Card>
-      </Group>
-    </Box>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

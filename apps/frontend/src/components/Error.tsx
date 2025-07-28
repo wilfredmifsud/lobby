@@ -1,22 +1,15 @@
-import { Overlay, Center, Text } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 
 export default function ConnectionErrorOverlay() {
-  const wsError = useSelector((state: RootState) => state.game.connectionError);
+  const wsError = useSelector((state: RootState) => state.bets.connectionError);
 
   if (!wsError) return null;
 
   return (
-    <Overlay blur={4} center fixed zIndex={9999999}>
-      <Center style={{ height: "100vh", flexDirection: "column" }}>
-        <Text c="red.5" size="xl" fw={700}>
-          Connection Error
-        </Text>
-        <Text mt="sm" c="gray.2" size="md" fw={500}>
-          {wsError}
-        </Text>
-      </Center>
-    </Overlay>
+    <div className="fixed bottom-0 left-0 right-0 z-[9999999] bg-red-600 text-white px-4 py-3 text-center shadow-lg">
+      <p className="text-lg font-bold">Connection Error</p>
+      <p className="text-sm font-medium">{wsError}</p>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import {
   handleNoCredits,
 } from "./handlers";
 import { WSMessage } from "./model";
-import { setConnectionError } from "../state/features/gameSlice";
+import { setConnectionError } from "../state/features/betSlice";
 import { store } from "../state/store";
 
 let ws: WebSocket | null = null;
@@ -22,7 +22,7 @@ export const connectWebSocket = () => {
   if (ws && ws.readyState === WebSocket.OPEN) return;
 
   ws = new WebSocket(WS_URL)!;
-  
+
   ws.onopen = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
