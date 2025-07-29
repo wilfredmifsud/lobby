@@ -10,8 +10,8 @@ This monorepo contains a mock WebSocket backend and a Vite-based React frontend,
 ## Setup
 
 ```bash
-nvm install 22.17.1
-nvm use 22.17.1
+nvm install 20
+nvm use 20
 yarn
 ```
 
