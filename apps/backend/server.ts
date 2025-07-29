@@ -1,6 +1,6 @@
-const express = require("express");
-const http = require("http");
-const WebSocket = require("ws");
+import express from "express";
+import http from "http";
+import WebSocket, { WebSocketServer } from "ws";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,12 +8,16 @@ const PORT = process.env.PORT || 3000;
 const BET_AMOUNT = 500;
 const STARTING_WALLET_AMOUNT = 5000;
 
-function getRandomMove() {
+/**
+ * Mostly generated via AI as a mock backend to abstract it from react like a proper casino would
+ * @returns 
+ */
+function getRandomMove(): string {
   const choices = ["rock", "paper", "scissors"];
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
-function determineWin(player, dealer) {
+function determineWin(player: string, dealer: string): boolean | null {
   if (player === dealer) return null;
   if (
     (player === "rock" && dealer === "scissors") ||
@@ -24,7 +28,7 @@ function determineWin(player, dealer) {
   return false;
 }
 
-function validateBets(bets, wallet) {
+function validateBets(bets: string[], wallet: number): { valid: boolean; message?: string } {
   if (!Array.isArray(bets) || bets.length === 0 || bets.length > 2) {
     return { valid: false, message: "You must bet on 1 or 2 positions only." };
   }
@@ -42,10 +46,14 @@ function validateBets(bets, wallet) {
   return { valid: true };
 }
 
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+interface CustomWebSocket extends WebSocket {
+  wallet: number;
+}
 
-wss.on("connection", (ws) => {
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
+
+wss.on("connection", (ws: CustomWebSocket) => {
   console.log("Client connected");
   ws.wallet = STARTING_WALLET_AMOUNT;
 
@@ -56,7 +64,7 @@ wss.on("connection", (ws) => {
     })
   );
 
-  ws.on("message", (message) => {
+  ws.on("message", (message: string) => {
     try {
       const parsed = JSON.parse(message);
 
@@ -76,7 +84,7 @@ wss.on("connection", (ws) => {
       }
 
       if (parsed.type === "BET") {
-        const bets = parsed.bets;
+        const bets: string[] = parsed.bets;
         const validation = validateBets(bets, ws.wallet);
 
         if (!validation.valid) {
@@ -126,7 +134,7 @@ wss.on("connection", (ws) => {
           bets: results,
           wallet: ws.wallet,
           round: Date.now(),
-          payout: payout
+          payout,
         };
 
         ws.send(JSON.stringify(response));

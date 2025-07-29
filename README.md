@@ -4,12 +4,14 @@ This monorepo contains a mock WebSocket backend and a Vite-based React frontend,
 
 ## Requirements
 
-- Node.js v18.17.1
-- Yarn 1.22 (classic)
+- Node.js version 22.17.1
+- Yarn version 1.22 (classic)
 
 ## Setup
 
 ```bash
+nvm install 22.17.1
+nvm use 22.17.1
 yarn
 ```
 
