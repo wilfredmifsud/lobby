@@ -1,4 +1,4 @@
-# Rock, Paper, Scissor - Fun Game
+# Rock, Paper, Scissor Demo Game
 
 This monorepo contains a mock WebSocket backend and a Vite-based React frontend, built with Yarn and managed via Turborepo.
 
