@@ -14,8 +14,7 @@ export interface HeaderProps {
 }
 
 export interface LobbyFooterControlsProps {
-  choices: string[];
-  bets: { move: string }[];
+  betPositions: { move: string }[];
   loading: boolean;
   wallet: number;
   handleChoice: (move: string) => void;
@@ -35,7 +34,7 @@ export interface Bet {
 
 export interface BetResult {
   move: string;
-  result: 'win' | 'lose' | 'tie';
+  result: "win" | "lose" | "tie";
   returned: number;
 }
 
@@ -47,7 +46,7 @@ export interface LastRound {
 
 export interface BetsState {
   wallet: number;
-  betPositions: string[]; 
+  betPositions: string[];
   loading: boolean;
   lastRound: LastRound | null;
   connectionError: string | null;

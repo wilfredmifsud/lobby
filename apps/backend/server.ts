@@ -10,7 +10,7 @@ const STARTING_WALLET_AMOUNT = 5000;
 
 /**
  * Mostly generated via AI as a mock backend to abstract it from react like a proper casino would
- * @returns 
+ * @returns
  */
 function getRandomMove(): string {
   const choices = ["rock", "paper", "scissors"];
@@ -28,7 +28,10 @@ function determineWin(player: string, dealer: string): boolean | null {
   return false;
 }
 
-function validateBets(bets: string[], wallet: number): { valid: boolean; message?: string } {
+function validateBets(
+  bets: string[],
+  wallet: number,
+): { valid: boolean; message?: string } {
   if (!Array.isArray(bets) || bets.length === 0 || bets.length > 2) {
     return { valid: false, message: "You must bet on 1 or 2 positions only." };
   }
@@ -61,7 +64,7 @@ wss.on("connection", (ws: CustomWebSocket) => {
     JSON.stringify({
       type: "SYSTEM",
       message: "Connected to WebSocket server",
-    })
+    }),
   );
 
   ws.on("message", (message: string) => {
@@ -73,7 +76,7 @@ wss.on("connection", (ws: CustomWebSocket) => {
           JSON.stringify({
             type: "INIT",
             wallet: ws.wallet,
-          })
+          }),
         );
         return;
       }
@@ -92,7 +95,7 @@ wss.on("connection", (ws: CustomWebSocket) => {
             JSON.stringify({
               type: "ERROR",
               message: validation.message,
-            })
+            }),
           );
           return;
         }
@@ -145,7 +148,7 @@ wss.on("connection", (ws: CustomWebSocket) => {
         JSON.stringify({
           type: "ERROR",
           message: "Unknown message type",
-        })
+        }),
       );
     } catch (err) {
       console.error("Invalid message format:", message);
@@ -153,7 +156,7 @@ wss.on("connection", (ws: CustomWebSocket) => {
         JSON.stringify({
           type: "ERROR",
           message: "Invalid JSON format",
-        })
+        }),
       );
     }
   });

@@ -15,7 +15,7 @@ import { BET_VALUE } from "../const";
 export default function Lobby() {
   const dispatch = useDispatch();
   const { wallet, betPositions, loading, lastRound } = useSelector(
-    (state: RootState) => state.bets
+    (state: RootState) => state.bets,
   );
 
   const handlePlay = async () => {
@@ -24,11 +24,11 @@ export default function Lobby() {
     dispatch(setLoading(true));
 
     try {
-      await sendBet(betPositions);      
+      await sendBet(betPositions);
     } catch (err) {
       dispatch(setConnectionError("There was an error placing your bet"));
       console.error(err);
-    } 
+    }
   };
 
   return (
@@ -38,10 +38,11 @@ export default function Lobby() {
         background: "linear-gradient(to bottom, #464646 0%, #1c1c1c 100%)",
       }}
     >
-      <Header 
-      wallet={wallet}
-       bet={betPositions.length * BET_VALUE} 
-       win={lastRound?.payout || 0} />
+      <Header
+        wallet={wallet}
+        bet={betPositions.length * BET_VALUE}
+        win={lastRound?.payout || 0}
+      />
       <main
         className="flex-1 flex items-center justify-center pt-12 pb-20"
         style={{ paddingBottom: 220 }}

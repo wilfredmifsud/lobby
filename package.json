@@ -18,7 +18,7 @@
     "typescript": "5.8.3"
   },
   "engines": {
-    "node": ">=22.17.1"
+    "node": ">=21.0.0"
   },
   "packageManager": "yarn@1.22.19",
   "workspaces": [

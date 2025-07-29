@@ -23,7 +23,7 @@ const Round = ({ lastRound }: IBetsProps) => {
       gsap.fromTo(
         vsRef.current,
         { opacity: 0, y: 50, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" },
       );
 
       const timer = setTimeout(() => setShowResult(true), 2000);
@@ -46,7 +46,7 @@ const Round = ({ lastRound }: IBetsProps) => {
           onComplete: () => {
             dispatch(setLoading(false));
           },
-        }
+        },
       );
     }
   }, [showResult, dispatch]);
@@ -55,7 +55,7 @@ const Round = ({ lastRound }: IBetsProps) => {
     return (
       <div className="flex items-center justify-center">
         <h2 className="text-2xl font-bold text-primary text-center pt-70">
-         PICK YOUR POSITIONS
+          PICK YOUR POSITIONS
         </h2>
       </div>
     );
@@ -86,19 +86,22 @@ const Round = ({ lastRound }: IBetsProps) => {
               lastRound.bets.some((b) => b.result === "win")
                 ? "text-green-400"
                 : lastRound.bets.some((b) => b.result === "tie")
-                ? "text-yellow-400"
-                : "text-red-400"
+                  ? "text-yellow-400"
+                  : "text-red-400"
             }`}
           >
             {lastRound.bets.some((b) => b.result === "win")
               ? `${lastRound.bets[0].move.toUpperCase()} WON`
               : lastRound.bets.some((b) => b.result === "tie")
-              ? "TIE"
-              : `${lastRound.dealerMove.toUpperCase()} WON`}
+                ? "TIE"
+                : `${lastRound.dealerMove.toUpperCase()} WON`}
           </h2>
           <span className="flex items-center gap-2">
             <span className="text-xl font-semibold text-primary">YOU WIN</span>
-            <span className="text-xl font-semibold text-white" data-testid="payout">
+            <span
+              className="text-xl font-semibold text-white"
+              data-testid="payout"
+            >
               {lastRound.payout}
             </span>
           </span>

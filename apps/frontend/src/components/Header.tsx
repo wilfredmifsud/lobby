@@ -7,15 +7,21 @@ function Header({ wallet, bet, win }: HeaderProps) {
       <div className="flex space-x-6">
         <span>
           <span className="text-primary">BALANCE:</span>{" "}
-          <span className="text-white" data-testid='wallet-balance'>{wallet}</span>
+          <span className="text-white" data-testid="wallet-balance">
+            {wallet}
+          </span>
         </span>
         <span>
           <span className="text-primary">BET:</span>{" "}
-          <span className="text-white" data-testid='header-bet'>{bet}</span>
+          <span className="text-white" data-testid="header-bet">
+            {bet}
+          </span>
         </span>
         <span>
           <span className="text-primary">WIN:</span>{" "}
-          <span className="text-white" data-testid='header-payout'>{win}</span>
+          <span className="text-white" data-testid="header-payout">
+            {win}
+          </span>
         </span>
       </div>
     </div>

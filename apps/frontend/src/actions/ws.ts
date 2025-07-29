@@ -56,7 +56,7 @@ export const connectWebSocket = () => {
     } catch (err) {
       const msg = "Failed to parse WebSocket message:";
       store.dispatch(setConnectionError(msg));
-      console.error(msg, event.data);
+      console.error(msg, event.data, err);
     }
   };
 

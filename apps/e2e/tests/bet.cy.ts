@@ -12,7 +12,7 @@ describe("Rock Paper Scissors Test", () => {
 
   /**
    * Bets on 1 positions,
-   * Checking if the Bet amount is 500 
+   * Checking if the Bet amount is 500
    * And the value shown in the "You win" matches the one in the header
    */
   it("bet on paper and wait for a confirmation", () => {
@@ -20,17 +20,20 @@ describe("Rock Paper Scissors Test", () => {
     cy.get("[data-testid='bet-button']").click();
 
     cy.contains(/YOU WIN/i)
-    .parent()
-    .find("[data-testid='payout']")
-    .invoke("text")
-    .then((payoutText) => {
-      const payout = parseInt(payoutText, 10);
-      expect(payout).to.be.a("number");
-      cy.get("[data-testid='header-payout']").should("have.text", payout.toString());
-    });
+      .parent()
+      .find("[data-testid='payout']")
+      .invoke("text")
+      .then((payoutText) => {
+        const payout = parseInt(payoutText, 10);
+        expect(payout).to.be.a("number");
+        cy.get("[data-testid='header-payout']").should(
+          "have.text",
+          payout.toString(),
+        );
+      });
 
-  cy.get("[data-testid='header-bet']").should("have.text", "500");
-  cy.get("[data-testid='clear-button']").click();
+    cy.get("[data-testid='header-bet']").should("have.text", "500");
+    cy.get("[data-testid='clear-button']").click();
   });
 
   /**
@@ -42,7 +45,7 @@ describe("Rock Paper Scissors Test", () => {
     cy.get("[data-testid='bet-paper']").click();
     cy.get("[data-testid='bet-rock']").click();
     cy.get("[data-testid='bet-button']").click();
-  
+
     cy.contains(/YOU WIN/i)
       .parent()
       .find("[data-testid='payout']")
@@ -50,10 +53,13 @@ describe("Rock Paper Scissors Test", () => {
       .then((payoutText) => {
         const payout = parseInt(payoutText, 10);
         expect(payout).to.be.a("number");
-        cy.get("[data-testid='header-payout']").should("have.text", payout.toString());
+        cy.get("[data-testid='header-payout']").should(
+          "have.text",
+          payout.toString(),
+        );
       });
 
     cy.get("[data-testid='header-bet']").should("have.text", "1000");
     cy.get("[data-testid='clear-button']").click();
   });
-  });
+});

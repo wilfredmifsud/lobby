@@ -17,7 +17,6 @@ export interface WSBetResultMessage {
   payout: number;
 }
 
-
 export interface WSNoCreditsMessage {
   type: "NO_CREDITS";
 }

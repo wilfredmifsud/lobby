@@ -9,18 +9,23 @@ const BOX_COLORS = {
   },
   paper: {
     classes: "border-green-600 bg-green-900 text-green-300",
-    shadow: "rgba(22, 163, 74, 1)", 
+    shadow: "rgba(22, 163, 74, 1)",
   },
   scissors: {
     classes: "border-red-600 bg-red-900 text-red-300",
-    shadow: "rgba(220, 38, 38, 1)", 
+    shadow: "rgba(220, 38, 38, 1)",
   },
 };
 
-function ChoiceCard({ move, isSelected, isDisabled, onSelect }: ChoiceCardProps) {
+function ChoiceCard({
+  move,
+  isSelected,
+  isDisabled,
+  onSelect,
+}: ChoiceCardProps) {
   const { classes, shadow } = BOX_COLORS[move as keyof typeof BOX_COLORS] || {
     classes: "border-gray-600 bg-gray-800 text-gray-300",
-    shadow: "rgba(75, 85, 99, 1)", 
+    shadow: "rgba(75, 85, 99, 1)",
   };
 
   return (

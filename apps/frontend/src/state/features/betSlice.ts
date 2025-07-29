@@ -3,7 +3,7 @@ import { BetsState, LastRound } from "../../components/model";
 
 const initialState: BetsState = {
   wallet: 0,
-  betPositions: [], 
+  betPositions: [],
   loading: false,
   lastRound: null,
   connectionError: null,
@@ -28,7 +28,9 @@ export const betsSlice = createSlice({
     toggleBetPosition: (state, action: PayloadAction<string>) => {
       const move = action.payload;
       if (state.betPositions.some((position) => position === move)) {
-        state.betPositions = state.betPositions.filter((position) => position !== move);
+        state.betPositions = state.betPositions.filter(
+          (position) => position !== move,
+        );
       } else if (state.betPositions.length < 2) {
         state.betPositions.push(move);
       }
@@ -50,4 +52,3 @@ export const {
 } = betsSlice.actions;
 
 export default betsSlice.reducer;
-
