@@ -8,7 +8,6 @@ export interface WSBetResultMessage {
   dealerMove: string;
   bets: Array<{
     move: string;
-    amount: number;
     result: 'win' | 'lose' | 'tie';
     returned: number;
   }>;

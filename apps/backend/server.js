@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 const BET_AMOUNT = 500;
 const STARTING_WALLET_AMOUNT = 5000;
 
-function getRandomRPS() {
+function getRandomMove() {
   const choices = ['rock', 'paper', 'scissors'];
   return choices[Math.floor(Math.random() * choices.length)];
 }
@@ -79,9 +79,9 @@ wss.on('connection', (ws) => {
           return;
         }
         // Deduct bets from wallet first
-        const totalBet = bets.length * 500;
+        const totalBet = bets.length * BET_AMOUNT;
         ws.wallet -= totalBet;
-        const dealerMove = getRandomRPS();
+        const dealerMove = getRandomMove();
         let payout = 0;
         let results = bets.map((bet, idx) => {
           const win = determineWin(bet.move, dealerMove);
@@ -90,19 +90,19 @@ wss.on('connection', (ws) => {
           if (win === true) {
             result = 'win';
             if (bets.length === 1) {
-              returned = 500 * 14;
+              returned = BET_AMOUNT * 14;
             } else if (bets.length === 2) {
-              returned = 500 * 3;
+              returned = BET_AMOUNT * 3;
             }
             payout += returned;
           } else if (win === null) {
             result = 'tie';
-            returned = 500; // tie returns bet
+            returned = BET_AMOUNT;
             payout += returned;
           }
           return {
             move: bet.move,
-            amount: 500,
+            amount: BET_AMOUNT,
             result,
             returned
           };

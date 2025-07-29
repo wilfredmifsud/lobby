@@ -21,7 +21,6 @@ export const handleBetResult = (
     }),
   );
   store.dispatch(setWallet(data.wallet));
-  store.dispatch(setLoading(false));
 };
 
 export const handleNoCredits = () => {

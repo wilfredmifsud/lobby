@@ -100,6 +100,6 @@ document.addEventListener("visibilitychange", () => {
       if (!ws || ws.readyState !== WebSocket.OPEN) {
         connectWebSocket();
       }
-    }, 500);
+    }, 300);
   }
 });
