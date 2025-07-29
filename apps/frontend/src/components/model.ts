@@ -1,5 +1,5 @@
 export interface LobbyFooterProps {
-  choices: string[];
+  betPositions: string[];
   loading: boolean;
   lastRound: LastRound | null;
   onChoice: (move: string) => void;
@@ -37,17 +37,18 @@ export interface BetResult {
   move: string;
   result: 'win' | 'lose' | 'tie';
   returned: number;
+  payout: number
 }
 
 export interface LastRound {
   dealerMove: string;
   bets: BetResult[];
+  payout: number;
 }
 
 export interface BetsState {
   wallet: number;
-  choices: string[]; 
-  bets: { move: string }[];
+  betPositions: string[]; 
   loading: boolean;
   lastRound: LastRound | null;
   connectionError: string | null;

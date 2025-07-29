@@ -4,7 +4,7 @@ import { memo } from "react";
 import Choice from "./Choice";
 
 function Footer({
-  choices,
+  betPositions,
   loading,
   lastRound,
   onChoice,
@@ -15,8 +15,8 @@ function Footer({
     <div className="w-full flex flex-col items-center justify-center p-4 rounded-t-lg space-y-8">
       <div className="flex justify-center gap-8">
         {MOVE_OPTIONS.map((move) => {
-          const isSelected = choices.includes(move);
-          const isDisabled = loading || (!isSelected && choices.length >= 2);
+          const isSelected = betPositions.includes(move);
+          const isDisabled = loading || (!isSelected && betPositions.length >= 2);
 
           return (
             <Choice

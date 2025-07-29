@@ -3,8 +3,7 @@ import { BetsState, LastRound } from "../../components/model";
 
 const initialState: BetsState = {
   wallet: 0,
-  choices: [],
-  bets: [],
+  betPositions: [], 
   loading: false,
   lastRound: null,
   connectionError: null,
@@ -30,22 +29,17 @@ export const betsSlice = createSlice({
     setConnectionError: (state, action: PayloadAction<string | null>) => {
       state.connectionError = action.payload;
     },
-    toggleChoice: (state, action: PayloadAction<string>) => {
+    toggleBetPosition: (state, action: PayloadAction<string>) => {
       const move = action.payload;
-      if (state.choices.includes(move)) {
-        state.choices = state.choices.filter((m) => m !== move);
-        state.bets = state.bets.filter((bet) => bet.move !== move);
-      } else if (state.choices.length < 2) {
-        state.choices.push(move);
-        if (!state.bets.some((bet) => bet.move === move)) {
-          state.bets.push({ move });
-        }
+      if (state.betPositions.some((position) => position === move)) {
+        state.betPositions = state.betPositions.filter((position) => position !== move);
+      } else if (state.betPositions.length < 2) {
+        state.betPositions.push(move);
       }
     },
     clearAll: (state) => {
-      state.choices = [];
+      state.betPositions = [];
       state.lastRound = null;
-      state.bets = [];
     },
   },
 });
@@ -55,8 +49,9 @@ export const {
   setLoading,
   setLastRound,
   setConnectionError,
-  toggleChoice,
+  toggleBetPosition,
   clearAll,
 } = betsSlice.actions;
 
 export default betsSlice.reducer;
+

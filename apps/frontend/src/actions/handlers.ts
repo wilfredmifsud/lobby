@@ -18,6 +18,7 @@ export const handleBetResult = (
     setLastRound({
       dealerMove: data.dealerMove,
       bets: data.bets,
+      payout: data.payout
     }),
   );
   store.dispatch(setWallet(data.wallet));

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  toggleChoice,
   clearAll,
   setLoading,
   setLastRound,
   setConnectionError,
+  toggleBetPosition,
 } from "./../state/features/betSlice";
 import type { RootState } from "./../state/store";
 import { sendBet } from "./../actions/ws";
@@ -15,18 +15,17 @@ import { BET_VALUE } from "../const";
 
 export default function Lobby() {
   const dispatch = useDispatch();
-  const { wallet, choices, loading, lastRound, totalWon } = useSelector(
+  const { wallet, betPositions, loading, lastRound, totalWon } = useSelector(
     (state: RootState) => state.bets
   );
 
   const handlePlay = async () => {
-    if (choices.length === 0) return;
+    if (betPositions.length === 0) return;
 
     dispatch(setLoading(true));
-    const betsPayload = choices.map((move) => ({ move }));
 
     try {
-      const response = await sendBet(betsPayload);
+      const response = await sendBet(betPositions);
       if (response) {
         // todo fix type
         dispatch(setLastRound(response));
@@ -37,14 +36,12 @@ export default function Lobby() {
     } 
   };
 
-  const bet = choices.length * BET_VALUE;
-  const win = lastRound
-    ? lastRound.bets.reduce((sum, b) => sum + (b.returned || 0), 0)
-    : 0;
+  const bet = betPositions.length * BET_VALUE;
+
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white">
-      <Header wallet={wallet} bet={bet} win={win} />
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-black-400 to-black-900 text-white">
+      <Header wallet={wallet} bet={bet} win={lastRound?.payout || 0} />
       <main
         className="flex-1 flex items-center justify-center pt-12 pb-20"
         style={{ paddingBottom: 220 }}
@@ -53,10 +50,10 @@ export default function Lobby() {
       </main>
       <div className="fixed bottom-0 left-0 w-full z-10">
         <Footer
-          choices={choices}
+          betPositions={betPositions}
           loading={loading}
           lastRound={lastRound}
-          onChoice={(move) => dispatch(toggleChoice(move))}
+          onChoice={(move) => dispatch(toggleBetPosition(move))}
           onClear={() => dispatch(clearAll())}
           onPlay={handlePlay}
         />

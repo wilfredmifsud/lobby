@@ -82,12 +82,11 @@ export const connectWebSocket = () => {
   };
 };
 
-// Accepts: bets: Array<{ move: string }>
-export const sendBet = (bets: { move: string }[]) => {
+export const sendBet = (bets: string[]) => {
   if (ws && ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify({ type: "BET", bets }));
   } else {
-    const msg = "Server not ready yet. Bet failed!";
+    const msg = "Bet failed!";
     store.dispatch(setConnectionError(msg));
     console.warn(msg);
   }
