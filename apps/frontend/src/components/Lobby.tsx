@@ -1,50 +1,64 @@
 import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setChoice, setLoading } from "./../state/features/betSlice";
+import { setChoices, setBets, setLoading } from "./../state/features/betSlice";
 import type { RootState } from "./../state/store";
 import { sendBet } from "./../actions/ws";
 import Round from "./../components/Round";
-import LobbyFooter from "./LobbyFooter";
+import Footer from "./Footer";
 import Header from "./Header";
 
 export default function Lobby() {
   const dispatch = useDispatch();
+  const { wallet, choices, bets, loading, lastRound, totalWon } = useSelector((state: RootState) => state.bets);
 
-  const { wallet, betAmount, choice, loading, lastRound } = useSelector(
-    (state: RootState) => state.bets,
-  );
 
-  const handleChoice = useCallback(
-    (move: string) => {
-      if (betAmount > 0 && betAmount <= wallet) {
-        dispatch(setChoice(move));
+  // take it out of component to make it easier?
+  const handleChoice = (move: string) => {
+    let newChoices = choices;
+    let newBets = bets;
+    if (choices.includes(move)) {
+      newChoices = choices.filter((m) => m !== move);
+      newBets = bets.filter((bet) => bet.move !== move);
+    } else if (choices.length < 2) {
+      newChoices = [...choices, move];
+      // Add a default bet for the new move if not present
+      if (!bets.some((bet) => bet.move === move)) {
+        newBets = [...bets, { move, amount: 500 }];
       }
-    },
-    [betAmount, wallet],
-  );
+    }
+    dispatch(setChoices(newChoices));
+    dispatch(setBets(newBets));
+  };
+
+  const handleClear = () => {
+    dispatch(setChoices([]));
+    dispatch(setBets([]));
+  };
 
   const handlePlay = () => {
-    if (!choice || betAmount < 1 || betAmount > wallet) return;
 
+    if (choices.length === 0) return;
     dispatch(setLoading(true));
-    sendBet(choice, betAmount);
+    // Send only the moves, backend will use 500 for each
+    const betsPayload = choices.map((move) => ({ move }));
+    sendBet(betsPayload);
   };
+
+  const bet = choices.length * 500;
+  const win = lastRound ? lastRound.bets.reduce((sum, b) => sum + b.returned, 0) : 0;
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white">
-      <Header wallet={wallet} />
-
-      <main className="flex-1 flex items-center justify-center pt-12 pb-20">
-        <Round lastRound={lastRound} />
+      <Header wallet={wallet} bet={bet} win={win} />
+      <main className="flex-1 flex items-center justify-center pt-12 pb-20" style={{ paddingBottom: 220 }}>
+        <Round lastRound={lastRound} totalWon={totalWon} />
       </main>
-
-      <div className="fixed bottom-0 left-0 w-full">
-        <LobbyFooter
-          wallet={wallet}
-          choice={choice}
+      <div className="fixed bottom-0 left-0 w-full z-10">
+        <Footer
+          choices={choices}
           loading={loading}
-          betAmount={betAmount}
           handleChoice={handleChoice}
+          handleClear={handleClear}
           handlePlay={handlePlay}
         />
       </div>

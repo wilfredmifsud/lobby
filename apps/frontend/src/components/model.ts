@@ -1,22 +1,24 @@
 export interface LobbyFooterProps {
-  choice: string | null;
+  choices: string[];
   loading: boolean;
-  betAmount: number;
-  wallet: number;
   handleChoice: (move: string) => void;
-  handlePlay: (manual: boolean) => void;
+  handleClear: () => void;
+  handlePlay: () => void;
 }
 
 export interface HeaderProps {
   wallet: number;
+  bet: number;
+  win: number;
 }
 
 export interface LobbyFooterControlsProps {
-  choice: string | null;
+  choices: string[];
+  bets: { move: string; amount: number }[];
   loading: boolean;
-  betAmount: number;
   wallet: number;
   handleChoice: (move: string) => void;
+  handleClear: () => void;
 }
 
 export type GameResult = "win" | "lose" | "draw";
@@ -31,21 +33,37 @@ export interface Bet {
   round: number;
 }
 
+export interface BetResult {
+  move: string;
+  amount: number;
+  result: 'win' | 'lose' | 'tie';
+  returned: number;
+}
+
 export interface LastRound {
-  playerMove: string;
   dealerMove: string;
-  result: GameResult;
+  bets: BetResult[];
 }
 
 export interface BetsState {
   wallet: number;
   betAmount: number;
-  choice: string | null;
+  choices: string[]; 
+  bets: { move: string; amount: number }[];
   loading: boolean;
   lastRound: LastRound | null;
   connectionError: string | null;
+  totalWon: number
 }
 
 export interface IBetsProps {
   lastRound: LastRound | null;
+  totalWon: number
+}
+
+export interface ChoiceCardProps {
+  move: string;
+  isSelected: boolean;
+  isDisabled: boolean;
+  onSelect: () => void;
 }

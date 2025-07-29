@@ -5,10 +5,13 @@ export interface WSInitMessage {
 
 export interface WSBetResultMessage {
   type: "BET_RESULT";
-  playerMove: string;
   dealerMove: string;
-  win: boolean | null;
-  amount: number;
+  bets: Array<{
+    move: string;
+    amount: number;
+    result: 'win' | 'lose' | 'tie';
+    returned: number;
+  }>;
   wallet: number;
   round: number;
 }

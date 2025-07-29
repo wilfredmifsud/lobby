@@ -5,6 +5,9 @@ const WebSocket = require('ws');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const BET_AMOUNT = 500;
+const STARTING_WALLET_AMOUNT = 5000;
+
 function getRandomRPS() {
   const choices = ['rock', 'paper', 'scissors'];
   return choices[Math.floor(Math.random() * choices.length)];
@@ -20,6 +23,24 @@ function determineWin(player, dealer) {
   return false;
 }
 
+function validateBets(bets, wallet) {
+  if (!Array.isArray(bets) || bets.length === 0 || bets.length > 2) {
+    return { valid: false, message: 'You must bet on 1 or 2 positions only.' };
+  }
+  const totalBet = bets.length * BET_AMOUNT;
+  if (totalBet > wallet) {
+    return { valid: false, message: 'Not enough balance for these bets.' };
+  }
+  const uniqueMoves = new Set(bets.map(b => b.move));
+  if (uniqueMoves.size !== bets.length) {
+    return { valid: false, message: 'Duplicate positions are not allowed.' };
+  }
+  if (uniqueMoves.size > 2) {
+    return { valid: false, message: 'Cannot bet on more than 2 positions.' };
+  }
+  return { valid: true };
+}
+
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
@@ -27,7 +48,7 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
 
   // fake wallet balance for the client
-  ws.wallet = 5000;
+  ws.wallet = STARTING_WALLET_AMOUNT;
 
   ws.send(JSON.stringify({ type: 'SYSTEM', message: 'Connected to WebSocket server' }));
   ws.on('message', (message) => {
@@ -48,41 +69,52 @@ wss.on('connection', (ws) => {
       }
 
       if (parsed.type === 'BET') {
-        const { move, amount } = parsed;
-
-        if (!move || typeof amount !== 'number') {
+        const { bets } = parsed;
+        const validation = validateBets(bets, ws.wallet);
+        if (!validation.valid) {
           ws.send(JSON.stringify({
             type: 'ERROR',
-            message: 'BET requires { move: string, amount: number }'
+            message: validation.message
           }));
           return;
         }
-
-        if (amount > ws.wallet) {
-          ws.send(JSON.stringify({ type: 'NO_CREDITS' }));
-          return;
-        }
-
+        // Deduct bets from wallet first
+        const totalBet = bets.length * 500;
+        ws.wallet -= totalBet;
         const dealerMove = getRandomRPS();
-        const win = determineWin(move, dealerMove);
-
-
-        if (win === true) {
-          ws.wallet += amount;
-        } else if (win === false) {
-          ws.wallet -= amount;
-        }
-
+        let payout = 0;
+        let results = bets.map((bet, idx) => {
+          const win = determineWin(bet.move, dealerMove);
+          let result = 'lose';
+          let returned = 0;
+          if (win === true) {
+            result = 'win';
+            if (bets.length === 1) {
+              returned = 500 * 14;
+            } else if (bets.length === 2) {
+              returned = 500 * 3;
+            }
+            payout += returned;
+          } else if (win === null) {
+            result = 'tie';
+            returned = 500; // tie returns bet
+            payout += returned;
+          }
+          return {
+            move: bet.move,
+            amount: 500,
+            result,
+            returned
+          };
+        });
+        ws.wallet += payout;
         const response = {
           type: 'BET_RESULT',
           dealerMove,
-          playerMove: move,
-          win,
-          amount,
+          bets: results,
           wallet: ws.wallet,
           round: Date.now(),
         };
-
         ws.send(JSON.stringify(response));
         return;
       }
