@@ -7,7 +7,6 @@ const initialState: BetsState = {
   loading: false,
   lastRound: null,
   connectionError: null,
-  totalWon: 0,
 };
 
 export const betsSlice = createSlice({
@@ -22,9 +21,6 @@ export const betsSlice = createSlice({
     },
     setLastRound: (state, action: PayloadAction<LastRound | null>) => {
       state.lastRound = action.payload;
-      state.totalWon = action.payload
-        ? action.payload.bets.reduce((total, bet) => total + (bet.returned || 0), 0)
-        : 0;
     },
     setConnectionError: (state, action: PayloadAction<string | null>) => {
       state.connectionError = action.payload;

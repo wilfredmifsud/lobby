@@ -51,12 +51,10 @@ export interface BetsState {
   loading: boolean;
   lastRound: LastRound | null;
   connectionError: string | null;
-  totalWon: number
 }
 
 export interface IBetsProps {
   lastRound: LastRound | null;
-  totalWon: number
 }
 
 export interface ChoiceCardProps {

@@ -4,7 +4,7 @@ import { IBetsProps } from "./model";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../state/features/betSlice";
 
-const Round = ({ lastRound, totalWon }: IBetsProps) => {
+const Round = ({ lastRound }: IBetsProps) => {
   const dispatch = useDispatch();
   const [showResult, setShowResult] = useState(false);
   const vsRef = useRef<HTMLDivElement>(null);
@@ -99,7 +99,7 @@ const Round = ({ lastRound, totalWon }: IBetsProps) => {
           <span className="flex items-center gap-2">
             <span className="text-xl font-semibold text-primary">YOU WIN</span>
             <span className="text-xl font-semibold text-white">
-              {totalWon.toFixed(2)}
+              {lastRound.payout.toFixed(2)}
             </span>
           </span>
         </div>

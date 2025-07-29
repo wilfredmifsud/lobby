@@ -14,7 +14,7 @@ import { BET_VALUE } from "../const";
 
 export default function Lobby() {
   const dispatch = useDispatch();
-  const { wallet, betPositions, loading, lastRound, totalWon } = useSelector(
+  const { wallet, betPositions, loading, lastRound } = useSelector(
     (state: RootState) => state.bets
   );
 
@@ -46,7 +46,7 @@ export default function Lobby() {
         className="flex-1 flex items-center justify-center pt-12 pb-20"
         style={{ paddingBottom: 220 }}
       >
-        <Round lastRound={lastRound} totalWon={totalWon} />
+        <Round lastRound={lastRound} />
       </main>
       <div className="fixed bottom-0 left-0 w-full z-10">
         <Footer
