@@ -16,7 +16,7 @@ function Footer({
       <div className="flex justify-center gap-8">
         {MOVE_OPTIONS.map((move) => {
           const isSelected = betPositions.includes(move);
-          const isDisabled = loading || (!isSelected && betPositions.length >= 2);
+          const isDisabled = !!lastRound || loading || (!isSelected && betPositions.length >= 2);
 
           return (
             <Choice

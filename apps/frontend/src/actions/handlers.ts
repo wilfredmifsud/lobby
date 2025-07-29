@@ -5,7 +5,6 @@ import {
   setLastRound,
   setLoading,
 } from "../state/features/betSlice";
-import { BetResult } from "../components/model";
 
 export const handleInit = (data: Extract<WSMessage, { type: "INIT" }>) => {
   store.dispatch(setWallet(data.wallet));

@@ -32,7 +32,12 @@ export default function Lobby() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-black-400 to-black-900 text-white">
+    <div
+      className="flex flex-col min-h-screen"
+      style={{
+        background: "linear-gradient(to bottom, #464646 0%, #1c1c1c 100%)",
+      }}
+    >
       <Header 
       wallet={wallet}
        bet={betPositions.length * BET_VALUE} 

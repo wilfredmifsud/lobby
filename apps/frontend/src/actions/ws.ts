@@ -15,7 +15,7 @@ export let reconnectTimeout: NodeJS.Timeout;
 let keepAliveInterval: NodeJS.Timeout;
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000";
-const KEEP_ALIVE_INTERVAL = 20000; // 20 seconds
+const KEEP_ALIVE_INTERVAL = 20000;
 let reconnectAttempts = 0;
 
 export const connectWebSocket = () => {

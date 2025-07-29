@@ -4,18 +4,16 @@ This monorepo contains a mock WebSocket backend and a Vite-based React frontend,
 
 ## Requirements
 
-- Node.js v20 (use `nvm`)
+- Node.js v18.17.1
 - Yarn 1.22 (classic)
 
 ## Setup
 
 ```bash
-nvm install 20
-nvm use 20
 yarn
 ```
 
-## Running the App all together
+## Running the App all together (frontend & backend)
 
 ```bash
 yarn dev
@@ -28,9 +26,12 @@ This command runs both the frontend and the mock WebSocket server in parallel.
 ```
 apps/
 ├── frontend      # Vite + React frontend
-└── demorng       # WebSocket backend (mock server)
+└── backend       # WebSocket backend (mock server)
 ```
 
 # Notes
+Used ChatGPT primarily to build the backend and for styling with Tailwind CSS, as it was faster to iterate for this test project. Additionally, GSAP was included just to experiment with basic animations.
 
-Used ChatGPT / Cursor AI for creating the backend MOCK server (was out of scope of this interview, but wanted to more casino oriented software with server instructions), also makes it easier to lift and shift into a different tech stack by abstracting the logic.
+# Assumptions
+- No mobile responsiveness was implemented
+- Styling and visual polish were not the main focus
