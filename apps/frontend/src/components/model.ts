@@ -37,7 +37,6 @@ export interface BetResult {
   move: string;
   result: 'win' | 'lose' | 'tie';
   returned: number;
-  payout: number
 }
 
 export interface LastRound {

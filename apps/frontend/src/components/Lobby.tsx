@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearAll,
   setLoading,
-  setLastRound,
   setConnectionError,
   toggleBetPosition,
 } from "./../state/features/betSlice";
@@ -32,12 +31,12 @@ export default function Lobby() {
     } 
   };
 
-  const bet = betPositions.length * BET_VALUE;
-
-
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-black-400 to-black-900 text-white">
-      <Header wallet={wallet} bet={bet} win={lastRound?.payout || 0} />
+      <Header 
+      wallet={wallet}
+       bet={betPositions.length * BET_VALUE} 
+       win={lastRound?.payout || 0} />
       <main
         className="flex-1 flex items-center justify-center pt-12 pb-20"
         style={{ paddingBottom: 220 }}
