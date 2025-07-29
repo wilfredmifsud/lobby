@@ -8,12 +8,15 @@ export interface WSBetResultMessage {
   dealerMove: string;
   bets: Array<{
     move: string;
-    result: 'win' | 'lose' | 'tie';
+    amount: number;
+    result: "win" | "lose" | "tie";
     returned: number;
   }>;
   wallet: number;
   round: number;
+  payout: number;
 }
+
 
 export interface WSNoCreditsMessage {
   type: "NO_CREDITS";

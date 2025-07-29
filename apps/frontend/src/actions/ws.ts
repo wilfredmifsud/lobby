@@ -84,11 +84,11 @@ export const connectWebSocket = () => {
 
 export const sendBet = (bets: string[]) => {
   if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify({ type: "BET", bets }));
+    return ws.send(JSON.stringify({ type: "BET", bets }));
   } else {
     const msg = "Bet failed!";
     store.dispatch(setConnectionError(msg));
-    console.warn(msg);
+    console.error(msg);
   }
 };
 

@@ -25,11 +25,7 @@ export default function Lobby() {
     dispatch(setLoading(true));
 
     try {
-      const response = await sendBet(betPositions);
-      if (response) {
-        // todo fix type
-        dispatch(setLastRound(response));
-      }
+      await sendBet(betPositions);      
     } catch (err) {
       dispatch(setConnectionError("There was an error placing your bet"));
       console.error(err);
