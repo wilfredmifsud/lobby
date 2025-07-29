@@ -1,11 +1,8 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
-
 :root {
   --color-primary: #c1a374;
 }
-
 
 .text-primary {
   color: var(--color-primary);
