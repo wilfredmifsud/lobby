@@ -1,0 +1,15 @@
+{
+    "name": "e2e",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "test": "cypress run --browser chrome --headed --no-exit"
+    },
+    "devDependencies": {
+      "cypress": "^13.13.0",
+      "typescript": "^5.5.4",
+      "@types/node": "^18.19.31",
+      "@types/jest": "^30.0.0"
+    }
+  }
+  

@@ -35,6 +35,7 @@ function Footer({
                 disabled:opacity-50 disabled:cursor-not-allowed"
       onClick={lastRound ? onClear : onPlay}
       disabled={loading}
+      data-testid={!lastRound ? "bet-button" : "clear-button"}
     >
       {!lastRound ? "PLAY" : "CLEAR"}
     </button>

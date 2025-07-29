@@ -31,6 +31,7 @@ function ChoiceCard({ move, isSelected, isDisabled, onSelect }: ChoiceCardProps)
       style={{
         boxShadow: isSelected ? `0 0 0 4px ${shadow}` : "none",
       }}
+      data-testid={`bet-${move}`}
       onClick={() => !isDisabled && onSelect()}
     >
       {isSelected && <Chip />}

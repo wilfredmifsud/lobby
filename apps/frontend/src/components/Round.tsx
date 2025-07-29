@@ -98,8 +98,8 @@ const Round = ({ lastRound }: IBetsProps) => {
           </h2>
           <span className="flex items-center gap-2">
             <span className="text-xl font-semibold text-primary">YOU WIN</span>
-            <span className="text-xl font-semibold text-white">
-              {lastRound.payout.toFixed(2)}
+            <span className="text-xl font-semibold text-white" data-testid="payout">
+              {lastRound.payout}
             </span>
           </span>
         </div>

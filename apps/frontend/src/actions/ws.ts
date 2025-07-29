@@ -10,13 +10,10 @@ import { store } from "../state/store";
 
 let ws: WebSocket | null = null;
 // @ts-ignore
-export let reconnectTimeout: NodeJS.Timeout;
-// @ts-ignore
 let keepAliveInterval: NodeJS.Timeout;
 
 const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:3000";
 const KEEP_ALIVE_INTERVAL = 20000;
-let reconnectAttempts = 0;
 
 export const connectWebSocket = () => {
   if (ws && ws.readyState === WebSocket.OPEN) return;
@@ -27,7 +24,6 @@ export const connectWebSocket = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ type: "CLIENT_CONNECTED" }));
 
-      reconnectAttempts = 0; // reset on success
       clearInterval(keepAliveInterval);
       keepAliveInterval = setInterval(() => {
         if (ws && ws.readyState === WebSocket.OPEN) {
@@ -65,14 +61,9 @@ export const connectWebSocket = () => {
   };
 
   ws.onclose = () => {
-    const msg = "Server disconnected, attempting to reconnect...";
+    const msg = "Server disconnected";
     console.warn(msg);
     store.dispatch(setConnectionError(msg));
-    clearInterval(keepAliveInterval);
-    clearTimeout(reconnectTimeout);
-
-    const delay = Math.min(10000, 1000 * 2 ** reconnectAttempts++);
-    reconnectTimeout = setTimeout(connectWebSocket, delay);
   };
 
   ws.onerror = (e) => {

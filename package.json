@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
@@ -17,7 +18,7 @@
     "typescript": "5.8.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22.17.1"
   },
   "packageManager": "yarn@1.22.19",
   "workspaces": [
