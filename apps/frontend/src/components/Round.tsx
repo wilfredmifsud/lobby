@@ -54,7 +54,7 @@ const Round = ({ lastRound }: IBetsProps) => {
   if (!lastRound) {
     return (
       <div className="flex items-center justify-center">
-        <h2 className="text-2xl font-bold text-primary text-center pt-70">
+        <h2 className="text-2xl font-bold text-primary text-center">
           PICK YOUR POSITIONS
         </h2>
       </div>

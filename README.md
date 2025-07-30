@@ -2,6 +2,8 @@
 
 This monorepo contains a mock WebSocket backend and a Vite-based React frontend, built with Yarn and managed via Turborepo.
 
+Demo URL: [https://lobby-pi.vercel.app](https://lobby-pi.vercel.app)
+
 ## Requirements
 
 - Node.js version 22.17.1
