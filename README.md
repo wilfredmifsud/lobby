@@ -1,6 +1,6 @@
 # Rock, Paper, Scissor - Demo Game
 
-This monorepo contains a mock WebSocket backend and a Vite-based React frontend, built with Yarn and managed via Turborepo.
+This monorepo contains a mock WebSocket based backend server and a Vite-based React frontend.
 
 Demo URL: [https://lobby-pi.vercel.app](https://lobby-pi.vercel.app)
 
