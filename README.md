@@ -43,6 +43,14 @@ To run the tests make sure to open a terminal and run `yarn dev`, opening anothe
 
 Used ChatGPT primarily to build the backend and for styling with Tailwind CSS, as it was faster to iterate for this test project. Additionally, GSAP was included just to experiment with basic animations.
 
+Used a WebSocket backend to mock the casino server – keeps the source of truth outside the frontend and avoids messy random logic in components.
+
+Added Redux – pulls state and logic out of components so they stay clean and focused.
+
+Built small, single-responsability components which easy to swap out or refactor since each one only does one job.
+
+Styling done with Tailwind – lightweight, framework-agnostic, no heavy coupling.
+
 # Assumptions
 
 - No mobile responsiveness was implemented
